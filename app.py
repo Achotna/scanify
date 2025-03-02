@@ -82,6 +82,7 @@ class LoginForm(FlaskForm):
 
 
 #key
+openai.api_key = "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"
 def chat_with_gpt(categories, ticket_brut):
     try:
         response = openai.ChatCompletion.create(
@@ -221,6 +222,7 @@ def dashboard():
             new_receipt = chat_with_gpt(categories, ticket_brut)
             #TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
             print("chat                 ", ticket_brut)
+            print("chat                 ", new_receipt)
 
 
             #TICKET MISE EN PAGE""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

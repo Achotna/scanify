@@ -11,7 +11,7 @@ class Language(enum.Enum):
 class ImageReader:
 
     def __init__(self):
-        window_path=r"C:\Users\Eleve\Desktop\Lycée\Première\NSI\Myapp\tess\4\tesseract.exe"
+        window_path=r'C:\Users\Eleve\Desktop\Lycée\Première\NSI\Myapp\tesss\tesseract.exe'
         pytesseract.tesseract_cmd=window_path
 
     def extract_text(self, image: str, lang: str) -> str:
