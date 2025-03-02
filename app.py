@@ -81,7 +81,7 @@ class LoginForm(FlaskForm):
     submit=SubmitField("Login")
 
 
-
+#key
 def chat_with_gpt(categories, ticket_brut):
     try:
         response = openai.ChatCompletion.create(
