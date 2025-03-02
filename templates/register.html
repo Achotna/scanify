@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial scale=1.0">
+  <title> Register </title>
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header class="top-sidebar">
+    <nav class="nav">
+      <img src ="../static/logo.jpg" alt="Scanify logo" class="logo_jpg">
+      <ul class="nav-links" id="nav-links">
+        <div class="scanify-title"> <li> Scanify </li></div>
+        <li> │ </li>
+        <li><a href="{{ url_for('home')}}">Home</a></li>
+        <li><a href="{{ url_for('about')}}">About us</a></li>
+        <li><a href="{{ url_for('contact') }}">Contact</a></li>
+      </ul>
+      <img src="../static/user_image.jpg" alt="User image" class="topbar_user_jpg">
+    </nav>
+  </header>
+  
+  <h1 id="register_title"></h1> 
+  <br>
+
+  <div class="login-container">
+    <div class="logo">
+      <img src="../static/user_image.jpg" alt="User Image" class="user_image_jpg">
+    </div>
+    <form method="POST" action="">
+      {{ form.hidden_tag()}}
+      <div class="input-group">
+        <label for="username">Username</label>
+        {{form.username(class="form-input")}}
+      </div>
+      <div class="input-group">
+        <label for="password">Password</label>
+        {{form.password(class="form-input")}}
+      </div>
+      <button type="submit" class="btn">{{ form.submit.label.text }}</button>
+    </form>
+
+  <a href="{{url_for('login')}}" class="a_container"> Already have an account? Log in</a>
+
+</body>
+
+</html>

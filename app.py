@@ -1,0 +1,410 @@
+from flask import Flask, render_template, url_for, redirect, request, session
+import openai
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField,  SubmitField
+from wtforms.validators import InputRequired, Length, ValidationError
+from flask_bcrypt import Bcrypt
+#from sqlalchemy.dialects.postgresql import JSON #ADDED
+import json
+from datetime import datetime
+
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+import os
+
+
+from models.ocr_me import ImageReader, Language
+from werkzeug.utils import secure_filename
+
+
+
+categories = ("Alimentation", "Hygiène et beauté", "Entretien de la maison", "Animaux", "Électronique et multimédia", "Vêtements et accessoires", "Maison et décoration", "Loisirs et papeterie", "Santé", "Emballages")
+
+
+# Folder files dropped
+UPLOAD_FOLDER = 'uploads'
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+app = Flask(__name__)
+
+bcrypt = Bcrypt(app)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+db=SQLAlchemy(app)
+
+app.config['SECRET_KEY'] = 'a2n7t0o3'
+
+
+login_manager=LoginManager()
+login_manager.init_app(app)
+login_manager.login_view="login"
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+class User(db.Model, UserMixin):
+    id=db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(40), nullable=False, unique=True)
+    password = db.Column(db.String(80), nullable=False)
+
+class Receipt(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    shop_name=db.Column(db.String(100))
+    date = db.Column(db.String)
+    amount = db.Column(db.Float)
+    payment_method=db.Column(db.String(100))
+    articles = db.Column(db.JSON)
+    # Connect both database
+    user = db.relationship('User', backref=db.backref('receipts', lazy=True))
+
+
+class RegisterForm(FlaskForm):
+    username= StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder":"Username"})
+    password=PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder":"Password"})
+    submit=SubmitField("Register")
+    def validate_username(self, username):
+            existing_user_username=User.query.filter_by(username=username.data).first()
+            if existing_user_username:
+                raise ValidationError("That username already exists. Please choose a different one.")
+            
+
+
+class LoginForm(FlaskForm):
+    username= StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder":"Username"})
+    password=PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder":"Password"})
+    submit=SubmitField("Login")
+
+
+
+openai.api_key = "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"
+def chat_with_gpt(categories, ticket_brut):
+    try:
+        response = openai.ChatCompletion.create(
+        model="gpt-4",  # or "gpt-3.5-turbo"
+        messages=[{"role": "user", "content": f"(n'ecris pas d'autres reponse que json format partir de un ticket de caisse avec les infos importantes (inclue 'Nom du magasin', 'Date' date sans l'heure sous format JJ/MM/AAAA,   'Total' en float sans caractere speciaux, 'Type de paiement' E pour especes ou CB pour carte bancaire, 'Articles', dans 'Articles' fais un sous dictionnaire avec 'Nom_article', 'Catégorie' (utilise les categories uniquement ! {categories}), 'Prix', ne fais fait 'quantité' mais ajoute l'article comme tel) voici le ticket de caisse {ticket_brut}  et fais tres attention au nombre de chaque article et s'il y a des articles plusieurs fois dans le ticket, tu dois les mettre dans le disctionnaire séparément"}]
+            )
+        chat_response = response['choices'][0]['message']['content']
+        return chat_response
+    except Exception as e:
+        return f"An error occurred: {e}"
+
+
+@app.route("/home")
+def home():
+    return render_template('home.html')
+
+@app.route("/account")
+def account():
+    return render_template('account.html', current_username={current_user.username})
+
+@app.route("/contact")
+def contact():
+    return render_template('contact.html')
+
+
+@app.route("/about")
+def about():
+    return render_template('about.html')
+
+@app.route("/clear_database") #delete at the end.................
+def clear_database():
+    db.drop_all()
+    db.create_all() 
+    return "Database cleared and recreated."
+
+
+@app.route('/lougout', methods=['GET', 'POST'])
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+
+
+@app.route("/register", methods=['GET','POST'])
+def register():
+    form=RegisterForm()
+    if form.validate_on_submit():
+        hashed_password = bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        new_user= User(username=form.username.data, password=hashed_password, receipts=[])
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('login'))
+    users = User.query.all()
+    for user in users:
+        print(f"ID: {user.id}, Username: {user.username}, Username: {user.password}")
+    return render_template('register.html', form=form)
+
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(username=form.username.data).first()
+        print(f"User found: {user}")  # Check if user is found
+        if user:
+            if bcrypt.check_password_hash(user.password, form.password.data):
+                print("Password is correct")  # Check if password is correct
+                login_user(user)
+                return redirect(url_for('dashboard'))
+            else:
+                print("Password is incorrect")  # Incorrect password
+        else:
+            print("User not found")  # User does not exist
+
+    return render_template('login.html', form=form)
+
+
+
+
+@app.route("/dashboard", methods=['GET','POST'])
+@login_required
+def dashboard():
+
+    def process_image(filename):
+        ir=ImageReader()
+        text=ir.extract_text(os.path.join("uploads", filename), lang=Language.EN.value)
+        processed_text=' '.join(text.split())
+        return str(processed_text)
+
+    upload_message = None 
+    ticket_brut=None
+
+    if request.method == 'POST':
+        if 'receipt_file' in request.files:
+            file = request.files['receipt_file']
+
+            if file.filename == '':
+                upload_message = "No file selected!"
+
+            elif file:
+                file_path = os.path.join(UPLOAD_FOLDER, file.filename)
+                filename = secure_filename(file.filename) 
+                file.save(file_path)
+                upload_message = f"File '{file.filename}' uploaded successfully!"
+                print(f"File saved to: {file_path}")
+
+                ticket_brut=process_image(filename)
+                print(f"Ticket brut after processing: {ticket_brut}")
+
+
+                session['ticket_brut'] = ticket_brut
+
+
+            else:
+                upload_message = "Something went wrong during file upload."
+        else:
+            upload_message = "No file part in request!"
+
+
+    new_receipt=None
+    if 'ticket_brut' in session:
+        ticket_brut = session['ticket_brut']
+    print(ticket_brut)
+
+
+    print(f"Current user: {current_user.username}")
+    if request.method == 'POST':
+        if 'action' in request.form and request.form['action'] == 'analyse' and ticket_brut!=None:
+            # Get user input from the form
+            #ticket_brut = request.form['receipt_input']
+            #TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+            #print(ticket_brut)
+            #session['ticket_brut'] = ticket_brut
+            #TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+            #ticket_brut=session.get('ticket_brut')
+            new_receipt = chat_with_gpt(categories, ticket_brut)
+            #TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+            print("chat                 ", ticket_brut)
+
+
+            #TICKET MISE EN PAGE""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+            
+
+            
+
+            #new_receipt_str = '{ "Nom du magasin": "Naegel Maison Naegel", "Date": "24/09/2024", "Total": 9.30, "Type de paiement": "Espèces", "Articles": [ { "Nom_article": "Lunette au Flan", "Catégorie": "Alimentation", "Prix": 1.90 }, { "Nom_article": "Thé Brot", "Catégorie": "Alimentation", "Prix": 1.20 }, { "Nom_article": "PP à l\'huile d\'olive", "Catégorie": "Alimentation", "Prix": 2.40 }, { "Nom_article": "Pain Ciabatta", "Catégorie": "Alimentation", "Prix": 3.70 }, { "Nom_article": "Sachet", "Catégorie": "Emballages", "Prix": 0.10 } ] }'
+
+            try:
+                new_receipt = json.loads(new_receipt)
+                #TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
+                print(type(new_receipt))
+                print(new_receipt['Nom du magasin'])
+
+            except json.JSONDecodeError:
+                print("Error: The string could not be decoded into a dictionary.")
+
+
+
+            receipt = Receipt(user_id=current_user.id, shop_name=new_receipt['Nom du magasin'], date = new_receipt['Date'], amount=new_receipt['Total'], payment_method=new_receipt['Type de paiement'], articles=new_receipt['Articles'] )
+            #convert amount in float !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            #['Nom du magasin'], date=new_receipt['Date'], amount=new_receipt['Total'], payment_method=new_receipt['Type de paiement'], articles=new_receipt['Articles']
+            db.session.add(receipt)
+
+            # Try to commit the change to the database
+            try:
+                db.session.commit()  # Commit the changes
+                db.session.refresh(current_user)  # Refresh to ensure we have the latest data
+                print("Commit successful")
+            except Exception as e:
+                db.session.rollback()  # Roll back on error
+                print("Error during commit:", e)
+
+            # Print the current user ID and the current receipts for debugging
+            if receipt.id:
+                print(f"Receipt added successfully to the person :  {current_user}")
+            else:
+                print("Failed to add the receipt.")
+
+    if current_user:
+                sum=0
+            # Loop through all receipts associated with the user and print them
+                for receipt in current_user.receipts:
+                    sum=float(receipt.amount)+sum
+                print("Somme", sum)
+    else:
+                print(f"No user.")
+
+    if current_user:
+        categories_amount={"Alimentation":0, "Hygiène et beauté":0, "Entretien de la maison":0, "Animaux":0, "Électronique et multimédia":0, "Vêtements et accessoires":0, "Maison et décoration":0, "Loisirs et papeterie":0, "Santé":0, "Emballages":0}
+        nom_magasins=[]
+        dates={}
+        months={}
+        especes=0
+        cb=0
+        if not current_user.receipts:  # Vérifie s'il y a au moins un ticket
+            print("Aucun ticket trouvé pour cet utilisateur.")
+            return render_template('dashboard.html', chat_with_gpt_html=None,  chart_url=None,  bar_d_url=None, bar_m_url=None, tab_url=None, chart_pay_url=None, sum=sum, nom_magasins=None)
+        else:
+                categories_amount={"Alimentation":0, "Hygiène et beauté":0, "Entretien de la maison":0, "Animaux":0, "Électronique et multimédia":0, "Vêtements et accessoires":0, "Maison et décoration":0, "Loisirs et papeterie":0, "Santé":0, "Emballages":0}
+                nom_magasins=[]
+                dates={}
+                months={}
+                especes=0
+                cb=0
+                for receipt in current_user.receipts:
+                    for article in receipt.articles: 
+                        #categories_amount[article.get("Catégorie")]+=float(article.get("Prix",0))
+                        categorie = article.get("Catégorie")
+                        prix = float(article.get("Prix", 0))  # Assure-toi que c'est bien un float
+    
+                        if categorie in categories_amount:
+                            categories_amount[categorie] += prix  # Ajoute le prix au montant existant
+                        else:
+                            categories_amount[categorie] = prix
+                    
+                    if receipt.shop_name not in nom_magasins:
+                        nom_magasins.append(receipt.shop_name)
+                        #print(article.get("Prix", 0))
+
+                    if receipt.date in dates.keys():
+
+                        dates[receipt.date]=receipt.amount+dates[receipt.date]
+                    else:
+                        dates[receipt.date]=receipt.amount
+
+
+                    if receipt.date[3:10] in months.keys():
+                        months[receipt.date[3:10]]=receipt.amount+months[receipt.date[3:10]]
+                    else:
+                        months[receipt.date[3:10]]=receipt.amount
+
+                    if receipt.payment_method == 'E':
+                         especes=especes+1
+                    elif receipt.payment_method == 'CB':
+                         cb=cb+1
+                         
+
+
+
+
+                
+                data_categories=categories_amount
+                x = [key for key, value in data_categories.items() if value > 0]
+                y=[value for value in data_categories.values() if value > 0]
+
+                #TABLEAU
+                tableau = [["Catégorie", "Montant (€)"]] + [[key, round(value, 2)] for key, value in categories_amount.items()]
+                fig, ax = plt.subplots()
+                ax.axis('tight')
+                ax.axis('off')
+                ax.table(cellText=tableau, cellLoc='center', loc="center")
+                tab_path = os.path.join('static', 'tab_produits_par_categories.png')
+                plt.savefig(tab_path)
+                plt.close()
+
+                print(f"Final category amounts: {categories_amount}")
+
+
+                
+
+                #BAR CHART DAYS
+                plt.bar([key for key, value in dates.items() if value > 0], [value for value in dates.values() if value > 0])
+                plt.title('Money spent according to days')
+                plt.xlabel('Dates')
+                plt.ylabel('Money spent')
+                bar_d_path = os.path.join('static', 'bar_days.png')
+                plt.savefig(bar_d_path)
+                plt.close()
+
+
+                #BAR CHART MONTHS
+                plt.bar([key for key, value in months.items() if value > 0], [value for value in months.values() if value > 0])
+                plt.title('Money spent according to months')
+                plt.xlabel('Months')
+                plt.ylabel('Money spent')
+                bar_m_path = os.path.join('static', 'bar_months.png')
+                plt.savefig(bar_m_path)
+                plt.close()
+
+
+
+                #PIE
+                colors=['turquoise', 'skyblue', 'lightblue', 'darkblue', 'blue']
+
+                plt.title("Pie chart categories", fontsize=10)
+                plt.figure(figsize=(5, 5))
+                plt.pie(y, labels=x, autopct='%1.1f%%', startangle=90, colors=colors, textprops={'fontsize': 5})
+
+                chart_path = os.path.join('static', 'chart_categories.png')
+                plt.savefig(chart_path)
+                plt.close()
+
+
+                #PIE PAY
+                colors=['turquoise', 'skyblue', 'lightblue', 'darkblue', 'blue']
+
+                plt.title("Pie chart pay method", fontsize=10)
+                plt.figure(figsize=(5, 5))
+                plt.pie([especes, cb], labels=["Espèces", "CB"], autopct='%1.1f%%', startangle=90, colors=colors, textprops={'fontsize': 5})
+
+                chart_pay_path = os.path.join('static', 'chart_pay.png')
+                plt.savefig(chart_pay_path)
+                plt.close()
+    return render_template('dashboard.html', upload_message=upload_message, chat_with_gpt_html=new_receipt,  chart_url=url_for('static', filename=('chart_categories.png')),  bar_d_url=url_for('static', filename=('bar_days.png')), bar_m_url=url_for('static', filename=('bar_months.png')), tab_url=url_for('static', filename=('tab_produits_par_categories.png')), chart_pay_url=url_for('static', filename=('chart_pay.png')), sum=sum, nom_magasins=nom_magasins)
+
+
+
+
+
+if __name__ == '__main__':
+    with app.app_context():
+        print("Creating database tables...")
+        db.create_all() 
+        print("Database tables created.")
+        print("Tables created:", db.metadata.sorted_tables)
+    app.run(debug=True)
+
+#$env:FLASK_APP = "c:/Users/Eleve/Desktop/Lycée/Première/NSI/Myapp/app.py"
+#$env:FLASK_DEBUG = "1"
+#python -m flask run
+
+#ACTION 4371 Lampertheim Rue des Mercuriales 28-09-2024 19:16:03 437110670112775 ARTICLES Lien 4371106-10122210 3004540 plat 12x5.5cm blanc EUR 1,08 opale verre 2 x 0,54 2555411 sot paillassons 5,77 multifonct. 6pcs 40x40cm 2530412 plastique bac à peinture 29x36cm 0.99 2529028 6sselte bac à courrier transparent 3 x 1.88 5,64 TOTAL 13,48 MODE DE PAIEMEN Carte 13,48 NOMBRE D'ARTICLES: 7 20% DETAILS TVA TVA 2,25 Excl 11,23 Incl. 13,48 TOTAL 2,25 11,23 13,48 Date 28/09/2024 Heure 19:15:57 Nom d'usage CB INVENTIVE AID MID TID Mode de saisie Auth. code Carte PAN seq. Tender Total A0000000421010 P400Plus-806056137 Puce sans contact 225148 ****6087 00 WpcJ001727543757327 € 13.48 1133034
+
+#Naegel MAISON NAEGEL 9 RUE DES ORFEVRES 67000 STRASBOURG France Siret 71850045700012 APE 1071DTVA FR72718500457 Tel 03 68 32 62 86 5456 90 EUR Ticket (VTE) 1-824641.1 12210 Edité le 24/09/2024 à 15:19:15 1 client SARO (9) Ote Designation PU.€ Net.€ 1 LUNETTE AU FLAN 1.90 1.90 1 THE BROT 1.20 1.20 B 2 PP A L'HUILE D'OLIVE 1.20 2.40  1 PAIN CIABATTA 3.70 3.70 A 1 SACHET 0.10 0.10 C mb Catégories à identi Total 9.30€ Hors Taxes Reçu ESPECES (1x9.30€) 5/6 9.00€ 9.30€ HT 0.08€ TTC 0.10€ TVA TVA (C) & 20.00% 0.02€ TVA (8) a 5.50%  5.21€ 5.50€ 0.296 TVA (A) & 0.00%3.70€3.70€ 0.00€

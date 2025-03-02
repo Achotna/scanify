@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<script src="{{ url_for('static', filename='script.js') }}"></script>
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial scale=1.0">
+  <title> Dashboard </title>
+  <script src="https://unpkg.com/scrollreveal"></script>
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header class="top-sidebar">
+        <nav class="nav">
+            <img src="../static/logo.jpg" alt="Scanify logo" class="logo_jpg">
+          <ul class="nav-links" id="nav-links">
+            <div class="scanify-title"> <li> Scanify </li></div>
+            <li> │ </li>
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('about') }}">About us</a></li>
+            <li><a href="{{ url_for('contact') }}">Contact</a></li>
+          </ul>
+          <img src="..\static\user_image.jpg" alt="User image" class="topbar_user_jpg">
+        </nav>
+      </header>
+
+    <h1> Hello, you are logged in. </h1>
+    <br>
+    <h1>Enter Receipt</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <div id="drop-area">
+            <label id="file-label">Drag & Drop your file here or Click to Upload</label>
+            <input type="file" name="receipt_file" id="file-input" hidden>
+        </div>
+        <button type="submit">Upload</button>
+    </form>
+    
+    {% if upload_message %}
+    <div class="alert alert-info">{{ upload_message }}</div>
+    {% endif %}
+
+    <form method="POST">
+        <textarea name="receipt_input" placeholder="Enter your receipt text here..."></textarea>
+        <br>
+        <button type="submit" name="action" value="analyse">Analyse</button>
+    </form>
+
+
+    <br>
+
+    
+    <br>
+    <a href="{{url_for('account')}}">Your account</a>
+    <br>
+    <a href="{{url_for('logout')}}">Press here to log out</a>
+
+
+    <br>
+    <h1> ChatGPT Response </h1>  
+    <br>
+    <p>{{chat_with_gpt_html}}</p>
+    <br><a href="{{url_for('dashboard')}}">Return to dashboard</a>
+    <br>
+
+
+
+    <h1>Pie Chart Example</h1>
+    <img src="{{chart_url}}" alt="Pie Chart">
+    <br>
+
+    <h1>Bar Chart Days</h1>
+    <img src="{{bar_d_url}}" alt="Bar Chart">
+
+    <br>
+
+    <h1>Bar Chart Months</h1>
+    <img src="{{bar_m_url}}" alt="Bar Chart">
+
+
+
+    <br>
+
+    <h1>Table Example</h1>
+    <img src="{{tab_url}}" alt="Tab Chart">
+
+    <br>
+
+    <h1>Table Example</h1>
+    <img src="{{chart_pay_url}}" alt="Pie Chart Pay Method">
+
+    <br>
+    <p>Shops {{nom_magasins}}</p>
+
+    <br>
+    <p>Somme {{sum}}</p>
+
+
+
+</body>
+
+</html>

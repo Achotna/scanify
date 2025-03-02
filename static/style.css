@@ -1,0 +1,381 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+  background: #262931;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
+
+/*background-color: linear-gradient(135deg, #2E4A6B, #2E4A3D);*/
+
+.container {
+  grid-template-columns: 1fr 1fr 1fr;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15vw, 1fr));
+  gap: 1rem;
+  width: 90%;
+  max-width: 1200px;
+}
+
+.header {
+  grid-column: span 3;
+  color: #2b2a34;
+  text-align: center;
+  font-family: "Bodoni Moda SC", serif;
+  padding: 1rem;
+}
+
+h1 {
+  font-family:"DM Serif Text", serif;
+  font-size: clamp(2rem, 6vw, 4rem);
+  color: #d6dfdb;
+  text-align: center;
+  margin: 2rem 0;
+  opacity: 0;
+  animation: slideInFromLeft 1s ease-in-out forwards;
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* MAIN TITLE STYLING -----------------------------------------------------------------------------*/
+
+.main_title {
+  text-align: center;
+  font-family:"Bodoni Moda SC", serif;
+  font-size: clamp(2rem, 6.8vw, 5rem);
+  position: relative;
+  background: linear-gradient(to right,#e7e7e7,#b7ccd1,#879a99);
+  background-clip: text;
+  color: transparent;
+  margin-top: 8rem;
+  margin-bottom: 3rem;
+  z-index: 2;
+  line-height: 1.2; 
+  animation: slideInFromLeft 1s ease-in-out forwards;
+}
+
+.main_title span {
+  background: linear-gradient(to right, #e7e7e7, #b7ccd1, #879a99);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+.a_main {
+  color: #e7e7e7;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.a_main:hover {
+  color: rgb(243, 240, 240);
+  text-decoration: none;
+}
+
+a {
+  color: #d3d3d3;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+a:hover {
+  color: #1b1a1a;
+  text-decoration: none;
+}
+
+/* Home page styling - get started button --------------------------------------------------*/
+.get-started-container {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.get-started-button {
+  padding: 0.7rem 1.5rem;
+  border-radius: 50px;
+  border: 2px solid #a9abaf;
+  color: #c7c5c5;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+}
+
+.get-started-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 4px rgba(216, 216, 216, 0.2);
+}
+
+/* Navbar styling --------------------------------------------------------------------------------------- */
+.top-sidebar {
+  display: flex;
+  align-items: center;
+  background-color: #1d1e1d;
+  color: white;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  justify-content: space-between;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  position: fixed;
+  height: 3rem;
+}
+
+.logo_jpg {
+  width: auto;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.topbar_user_jpg {
+  width: auto;
+  height: 30px;
+  border-radius: 50%;
+  margin-left: auto;
+  justify-content: space-between;
+}
+
+.topbar_user_jpg:hover {
+  transform: rotate(360deg);
+  transition: transform 0.6s ease-in-out;
+}
+
+.nav {
+  display: flex;
+  align-items: center; 
+  justify-content: space-between;
+  width: 100%;
+  padding: 0.5rem 1rem; 
+}
+
+.nav-links {
+  display: flex;
+  gap: 1rem;
+  font-family: 'Inter', sans-serif;
+  list-style: none;
+  margin: 0vh;
+  padding : 0vh;
+}
+
+.nav-links li {
+  margin-left: 20px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: rgba(255, 255, 255, 0.808);
+  font-size: 16px;
+}
+
+.nav-links a:hover {
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.scanify-title{
+  font-family: 'Courier New', serif;
+}
+/* Error Message -------------------------------------------------------------------------*/
+
+.alert {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #F8D7DA;
+  color: #721C24;
+  border-radius: 5px;
+  text-align: center;
+}
+
+/* Login page --------------------------------------------------------------------------------------------*/
+
+.login-container {
+  max-width: 400px;
+  padding: 1.5rem;
+  border-radius: 5px;
+  background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  align-items: center;
+}
+
+.login-container {
+  margin-top: 1rem;
+}
+
+.a_container {
+  font-size: 14px;
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.from + .a_container {
+  margin-top: 20px;
+}
+
+.input-group {
+  margin-bottom: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.form-input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #B1B3B5;
+  border-radius: 4px;
+}
+
+.btn {
+  padding: 0.8rem;
+  background-color: #969eb5;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  justify-content: center ;
+}
+
+.btn:hover {
+  background-color: #6a7080;
+}
+
+input:focus {
+  outline: 2px solid #6a7998;
+  border-color: #3f4d58;
+  box-shadow: 0 0 5px #dddee3;
+}
+
+.user_image_jpg {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  border: 2px solid #ccc;
+  margin: 0 auto;
+  display: block;
+}
+/* UI CARDS  -------------------------------------------------------------------------------------------------*/
+
+.features-section {
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+/* Replace linear-gradient by background-color: var(--light-gray); if wanted */
+
+.cards-container {
+  display: flex;
+  gap: 2rem;
+  overflow-x: auto; 
+  padding: 2rem 0;
+  scroll-snap-type: x mandatory; 
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.card {
+  flex: 1 1 300px; 
+  max-width: 100%;
+  width:100%; 
+  scroll-snap-align: start; 
+  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background for glass morphism */
+  border-radius: 15px;
+  padding: 2rem;
+  backdrop-filter: blur(10px); /* Glass morphism effect */
+  border: 1px solid rgba(255, 255, 255, 0.2); 
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); 
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+@media (max-width: 768px) {
+  .card {
+    flex: 1 1 100%; 
+    padding: 1rem; 
+}
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.card-icon {
+  width: 10%;
+  height: auto;
+  margin-bottom: 1rem;
+}
+
+.card h3 {
+  margin-bottom: 1rem;
+  font-family: 'Inter', sans-serif;
+  color :#e2e2e2;
+}
+
+/*Alternative : Poppins font*/
+
+.card p {
+  color:#c4c3c3 ;
+  font-size: 0.9rem;
+}
+
+.card {
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+  animation: none; /* Disable floating animation on hover */
+}
+
+/* DASHBOARD PART --------------------------------------------------------------------------------------------*/
+
+.drop-area {
+  width: 100%;
+  max-width: 400px;
+  padding: 1.5rem;
+  border: 2px dashed #30271f;
+  text-align: center;
+  cursor: pointer;
+  margin: 2rem auto;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+}
