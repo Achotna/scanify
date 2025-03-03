@@ -331,10 +331,24 @@ def dashboard():
 
                 #TABLEAU
                 tableau = [["Catégorie", "Montant (€)"]] + [[key, round(value, 2)] for key, value in categories_amount.items()]
-                fig, ax = plt.subplots()
+                fig, ax = plt.subplots(figsize=(8, 4), facecolor='none')
                 ax.axis('tight')
                 ax.axis('off')
-                ax.table(cellText=tableau, cellLoc='center', loc="center")
+                table = ax.table(cellText=tableau, cellLoc='center', loc="center", colWidths=[0.5, 0.3])
+                table.auto_set_font_size(False)
+                table.set_fontsize(12)
+                for i, cell in table.get_celld().items():
+                    cell.set_edgecolor('#6a7998')
+                    cell.set_height(0.1)
+                    if i[0] == 0:
+                        cell.set_fontsize(14)
+                        cell.set_text_props(weight='bold', color='white')
+                        cell.set_facecolor('#3f4d58')
+                    else:
+                        cell.set_facecolor('#262931')
+                        cell.set_text_props(color='white')
+
+
                 tab_path = os.path.join('static', 'tab_produits_par_categories.png')
                 plt.savefig(tab_path)
                 plt.close()
@@ -345,20 +359,42 @@ def dashboard():
                 
 
                 #BAR CHART DAYS
-                plt.bar([key for key, value in dates.items() if value > 0], [value for value in dates.values() if value > 0])
-                plt.title('Money spent according to days')
-                plt.xlabel('Dates')
-                plt.ylabel('Money spent')
+                fig, ax = plt.subplots(figsize=(8, 5), facecolor='none')
+                plt.bar([key for key, value in dates.items() if value > 0], [value for value in dates.values() if value > 0], color='#6a7998')
+                #bar change
+                plt.title('Money spent according to days', fontsize=14, fontweight='bold', color='#dddee3')
+                plt.xlabel('Dates', fontsize=12, color='white')
+                plt.ylabel('Money spent (€)', fontsize=12, color='white')
+                plt.grid(axis='y', linestyle='--', alpha=0.5, color='gray')
+                ax.spines['top'].set_visible(False)
+                ax.spines['right'].set_visible(False)
+                ax.spines['left'].set_color('white')
+                ax.spines['bottom'].set_color('white')
+                ax.tick_params(axis='x', colors='white')
+                ax.tick_params(axis='y', colors='white')
+
+
                 bar_d_path = os.path.join('static', 'bar_days.png')
                 plt.savefig(bar_d_path)
                 plt.close()
 
 
                 #BAR CHART MONTHS
-                plt.bar([key for key, value in months.items() if value > 0], [value for value in months.values() if value > 0])
-                plt.title('Money spent according to months')
-                plt.xlabel('Months')
-                plt.ylabel('Money spent')
+                fig, ax = plt.subplots(figsize=(8, 5), facecolor='none')
+                plt.bar([key for key, value in months.items() if value > 0], [value for value in months.values() if value > 0], color='#b7ccd1')
+                #bar months
+                plt.title('Money spent according to months', fontsize=14, fontweight='bold', color='#dddee3')
+                plt.xlabel('Months', fontsize=12, color='white')
+                plt.ylabel('Money spent (€)', fontsize=12, color='white')
+                plt.grid(axis='y', linestyle='--', alpha=0.5, color='gray')
+                ax.spines['top'].set_visible(False)
+                ax.spines['right'].set_visible(False)
+                ax.spines['left'].set_color('white')
+                ax.spines['bottom'].set_color('white')
+                ax.tick_params(axis='x', colors='white')
+                ax.tick_params(axis='y', colors='white')
+
+
                 bar_m_path = os.path.join('static', 'bar_months.png')
                 plt.savefig(bar_m_path)
                 plt.close()
@@ -366,11 +402,22 @@ def dashboard():
 
 
                 #PIE
-                colors=['turquoise', 'skyblue', 'lightblue', 'darkblue', 'blue']
+                plt.rcParams['font.family'] = 'DejaVu Sans'
+                #change to 'Inter'
+                colors = ['#b7ccd1', '#6a7998', '#dddee3', '#879a99', '#3f4d58']
 
-                plt.title("Pie chart categories", fontsize=10)
-                plt.figure(figsize=(5, 5))
-                plt.pie(y, labels=x, autopct='%1.1f%%', startangle=90, colors=colors, textprops={'fontsize': 5})
+                explode = [0.08 if val == max(y) else 0.03 for val in y]
+                fig, ax = plt.subplots(figsize=(8, 8), facecolor='none')
+                wedges, texts, autotexts = ax.pie(
+                    y, labels=x, autopct='%1.1f%%', startangle=140, colors=colors,
+                    explode=explode, pctdistance=0.85,
+                    wedgeprops={'edgecolor': '#fff', 'linewidth': 2, 'alpha': 0.9})
+                for text in texts:
+                    text.set(fontsize=13, fontweight="bold", color='white')
+                for autotext in autotexts:
+                    autotext.set(fontsize=13, fontweight="bold", color='#1d1e1d')
+                plt.title("Répartition des Dépenses", fontsize=18, fontweight="bold", color="#dddee3")
+                plt.gca().set_facecolor('none')
 
                 chart_path = os.path.join('static', 'chart_categories.png')
                 plt.savefig(chart_path)
@@ -378,11 +425,20 @@ def dashboard():
 
 
                 #PIE PAY
-                colors=['turquoise', 'skyblue', 'lightblue', 'darkblue', 'blue']
+                fig, ax = plt.subplots(figsize=(8, 8), facecolor='none')
 
-                plt.title("Pie chart pay method", fontsize=10)
-                plt.figure(figsize=(5, 5))
-                plt.pie([especes, cb], labels=["Espèces", "CB"], autopct='%1.1f%%', startangle=90, colors=colors, textprops={'fontsize': 5})
+                wedges, texts, autotexts = ax.pie(
+                    [especes, cb], labels=["Espèces", "CB"], autopct='%1.1f%%', startangle=140, colors=colors, pctdistance=0.85,
+                    wedgeprops={'edgecolor': '#fff', 'linewidth': 2, 'alpha': 0.9})
+                
+                for text in texts:
+                    text.set(fontsize=13, fontweight="bold", color='white')
+                for autotext in autotexts:
+                    autotext.set(fontsize=13, fontweight="bold", color='#1d1e1d')
+                plt.title("Type de paiement", fontsize=18, fontweight="bold", color="#dddee3")
+                plt.gca().set_facecolor('none')
+
+
 
                 chart_pay_path = os.path.join('static', 'chart_pay.png')
                 plt.savefig(chart_pay_path)
