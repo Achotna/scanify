@@ -19,6 +19,15 @@ body {
   font-size: 1rem;
 }
 
+h2 {
+  color: rgb(224, 224, 224); 
+  font-size: 1rem; 
+  font-family: 'Inter', sans-serif;
+  text-align: left; 
+  margin: 0; 
+  padding: 0; 
+}
+
 .container {
   grid-template-columns: 1fr 1fr 1fr;
   display: grid;
@@ -237,6 +246,8 @@ a:hover {
   font-size: 0.8rem;
   cursor: pointer;
   transition: transform 0.3s ease;
+  pointer-events: auto;
+  display: inline-block;
 }
 
 .dropdown-menu {
@@ -403,10 +414,10 @@ input:focus {
   max-width: 100%;
   width:100%; 
   scroll-snap-align: start; 
-  background: rgba(255, 255, 255, 0.1); /* Semi-transparent background for glass morphism */
+  background: rgba(255, 255, 255, 0.1); 
   border-radius: 15px;
   padding: 2rem;
-  backdrop-filter: blur(10px); /* Glass morphism effect */
+  backdrop-filter: blur(10px); 
   border: 1px solid rgba(255, 255, 255, 0.2); 
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); 
   transition: transform 0.3s, box-shadow 0.3s;
@@ -469,14 +480,23 @@ input:focus {
 
 .drop-area {
   width: 100%;
-  max-width: 400px;
-  padding: 1.5rem;
-  border: 2px dashed #474747;
+  max-width: 500px;
+  padding: 5rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
   text-align: center;
   cursor: pointer;
   margin: 2rem auto;
   border-radius: 10px;
-  background-color: #f9f9f98a;
+  background-color: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08); 
+  transition: all 0.3s ease;
+}
+
+.drop-area:hover {
+  background-color: rgba(255, 255, 255, 0.3); 
+  border-color: rgba(255, 255, 255, 0.5); 
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15), 0 3px 6px rgba(0, 0, 0, 0.1); 
 }
 
 .dash-button-container{

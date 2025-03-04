@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', () => {
     "retina_detect": true
   });
   
-  //DROPDOWN TRIANGLE MENU TOPBAR
+  //DROPDOWN TRIANGLE MENU TOPBAR ----------------------------------------------------------------------------
   
   document.addEventListener('DOMContentLoaded', () => {
     const profileDropdown = document.querySelector('.profile-dropdown');
@@ -201,3 +201,4 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
+

@@ -1,19 +1,23 @@
 ELISA
-drop frag in white
+drop drag in white                              -> OK (used glass morphism cuz it's better tho)
 title for login and sign in                     -> OK 
 user image reditect to account
 cuouleur des <p> en blanc
 Dashboard msie en page
 styliser les boutons upload et analyse          -> OK
-un truc info (i avec un round) et quand on clique dessus mimi message qui explique qu'il faut upload le fichie pui scliquer sur upload puis sur analyse
+un truc info (i avec un round) et quand on clique dessus mimi message qui explique qu'il faut upload le fichie pui scliquer sur upload puis sur analyse                       -> On peut juste le mettre dans un <p>
 merge about us and contact (probably delete contact)           -> OK
 syliser le bouton press to log out et account 
+
+problem dash topbar overriding user_img when small sized screen
+
 
 ANTONINA
 reponse de chat
 magasin
 page account rajouter des trucs
 rajouter des trucs sur home
+manger
 
 TOUT LE MONDE
 Ne pas mourir 

@@ -21,31 +21,29 @@
 </head>
 
 <body>
-  <body>
-    <header class="top-sidebar">
-      <nav class="nav">
-        <img src="../static/Design/logo.jpg" alt="Scanify logo" class="logo_jpg">
-        <div class="scanify-title">Scanify</div>
-        <ul class="nav-links" id="nav-links">
-          <li>│</li>
-          <li><a href="{{ url_for('home') }}">Home</a></li>
-          <li><a href="{{ url_for('about') }}">About us</a></li>
-        </ul>
-        <!-- Dropdown and triangle button next to user pfp -->
-        <div class="profile-dropdown">
-          <div class="profile-toggle">
-            <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
-            <button class="dropdown-arrow">&#9660;</button> 
-          </div>
-          <ul class="dropdown-menu">
-            <li><a href="{{ url_for('login') }}">Account Information</a></li>
-            <li><a href="{{ url_for('logout') }}">Log Out</a></li>
-          </ul>
+  <header class="top-sidebar">
+    <nav class="nav">
+      <img src="../static/Design/logo.jpg" alt="Scanify logo" class="logo_jpg">
+      <div class="scanify-title">Scanify</div>
+      <ul class="nav-links" id="nav-links">
+        <li>│</li>
+        <li><a href="{{ url_for('home') }}">Home</a></li>
+        <li><a href="{{ url_for('about') }}">About us</a></li>
+      </ul>
+      <!-- Dropdown and triangle button next to user pfp -->
+      <div class="profile-dropdown">
+        <div class="profile-toggle">
+          <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
+          <button class="dropdown-arrow"> &#9660; </button> 
         </div>
-      </nav>
-    </header>
-  </body>
-
+        <ul class="dropdown-menu">
+          <li><a href="{{ url_for('login') }}">Account Information</a></li>
+          <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   
   <h1 id="login_title"> Login </h1> 

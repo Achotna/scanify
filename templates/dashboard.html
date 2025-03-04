@@ -44,11 +44,12 @@
   </nav>
 </header>
 
+<body>
     <h1> Welcome to your dashboard </h1>
     <br>
-    <h2> Please enter your receipt<h2>
+    <h2> ─── Please enter your receipt. Press "upload" then "analyze" to start analysis. ─── <h2>
     <form method="POST" enctype="multipart/form-data">
-        <div id="drop-area">
+        <div id="drop-area" class="drop-area">
             <label id="file-label"> Drag & drop your file here or click to upload </label>
             <input type="file" name="receipt_file" id="file-input" hidden>
         </div>
@@ -80,8 +81,6 @@
     <br>
 
     <p>{{chat_with_gpt_html}}</p>
-    <br><a href="{{url_for('dashboard')}}">Return to dashboard</a>
-
 
     <br>
     <h1>Somme : {{sum}}</h1>
