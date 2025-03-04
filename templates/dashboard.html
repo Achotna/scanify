@@ -42,8 +42,17 @@
         </div>
         <button type="submit">Upload</button>
     </form>
-    
 
+  {% if upload_message %}
+  <div class="alert alert-info">{{ upload_message }}</div>
+  {% endif %}
+
+  <br>
+
+  <form method="POST">
+      <br>
+      <button type="submit" name="action" value="analyse">Analyse</button>
+  </form>
     
     <br>
     <a href="{{url_for('account')}}">Your account</a>
@@ -59,6 +68,9 @@
     <p>{{chat_with_gpt_html}}</p>
     <br><a href="{{url_for('dashboard')}}">Return to dashboard</a>
 
+
+    <br>
+    <h1>Somme : {{sum}}</h1>
     <br>
 
     <h1>Pie Chart Example</h1>
@@ -88,8 +100,6 @@
     <br>
     <p>Shops {{nom_magasins}}</p>
 
-    <br>
-    <p>Somme {{sum}}</p>
 
 
 
