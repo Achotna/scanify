@@ -15,7 +15,7 @@ body {
 }
 
 .p {
-  color:#c4c3c3 ;
+  color:#cfcdcd ;
   font-size: 1rem;
 }
 
@@ -471,10 +471,43 @@ input:focus {
   width: 100%;
   max-width: 400px;
   padding: 1.5rem;
-  border: 2px dashed #30271f;
+  border: 2px dashed #474747;
   text-align: center;
   cursor: pointer;
   margin: 2rem auto;
   border-radius: 10px;
-  background-color: #f9f9f9;
+  background-color: #f9f9f98a;
+}
+
+.dash-button-container{
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.dashboard-button {
+  padding: 0.7rem 1.5rem;
+  border-radius: 50px;
+  border: 2px solid #616163;
+  color: #999a9e;
+  font-weight: bold;
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.dashboard-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 2px 4px rgba(216, 216, 216, 0.2);
+}
+
+.a-dash{
+  color:#6f6f6f;
+  text-decoration: none;
+}
+
+.a-dash:hover{
+  transform: scale(1.05);
+  color: #434242;
+  text-decoration: none;
 }

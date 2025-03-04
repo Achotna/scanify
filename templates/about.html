@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="{{ url_for('static', filename='script.js') }}" defer></script>
 
 <head>
   <meta charset="UTF-8">
@@ -15,22 +15,35 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Galada&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cantata+One&display=swap" rel="stylesheet">
 </head>
 
 <body>
   <header class="top-sidebar">
     <nav class="nav">
-      <img src="../static/logo.jpg" alt="Scanify logo" class="logo_jpg">
+      <img src="../static/Design/logo.jpg" alt="Scanify logo" class="logo_jpg">
+      <div class="scanify-title">Scanify</div>
       <ul class="nav-links" id="nav-links">
-        <div class="scanify-title"> <li> Scanify </li></div>
-        <li> │ </li>
+        <li>│</li>
         <li><a href="{{ url_for('home') }}">Home</a></li>
         <li><a href="{{ url_for('about') }}">About us</a></li>
-        <li><a href="{{ url_for('contact') }}">Contact</a></li>
       </ul>
-      <img src="..\static\user_image.jpg" alt="User image" class="topbar_user_jpg">
+      <!-- Dropdown and triangle button next to user pfp -->
+      <div class="profile-dropdown">
+        <div class="profile-toggle">
+          <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
+          <button class="dropdown-arrow">&#9660;</button> 
+        </div>
+        <ul class="dropdown-menu">
+          <li><a href="{{ url_for('login') }}">Account Information</a></li>
+          <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+        </ul>
+      </div>
     </nav>
   </header>
+</body>
   
 
   <h1 id="about_title"></h1>

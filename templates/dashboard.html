@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-<script src="{{ url_for('static', filename='script.js') }}"></script>
+<script src="{{ url_for('static', filename='script.js') }}" defer></script>
 
 <head>
   <meta charset="UTF-8">
@@ -15,32 +15,51 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda+SC:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=DM+Serif+Text:ital@0;1&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Galada&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Cantata+One&display=swap" rel="stylesheet">
 </head>
 
-<body>
-    <header class="top-sidebar">
-        <nav class="nav">
-            <img src="../static/logo.jpg" alt="Scanify logo" class="logo_jpg">
-          <ul class="nav-links" id="nav-links">
-            <div class="scanify-title"> <li> Scanify </li></div>
-            <li> │ </li>
-            <li><a href="{{ url_for('home') }}">Home</a></li>
-            <li><a href="{{ url_for('about') }}">About us</a></li>
-            <li><a href="{{ url_for('contact') }}">Contact</a></li>
-          </ul>
-          <img src="..\static\user_image.jpg" alt="User image" class="topbar_user_jpg">
-        </nav>
-      </header>
+<header class="top-sidebar">
+  <nav class="nav">
+    <img src="../static/Design/logo.jpg" alt="Scanify logo" class="logo_jpg">
+    <div class="scanify-title">Scanify</div>
+    <ul class="nav-links" id="nav-links">
+      <li>│</li>
+      <li><a href="{{ url_for('home') }}">Home</a></li>
+      <li><a href="{{ url_for('about') }}">About us</a></li>
+      <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+    </ul>
+    <!-- Dropdown and triangle button next to user pfp -->
+    <div class="profile-dropdown">
+      <div class="profile-toggle">
+        <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
+        <button class="dropdown-arrow">&#9660;</button> 
+      </div>
+      <ul class="dropdown-menu">
+        <li><a href="{{ url_for('login') }}">Account Information</a></li>
+        <li><a href="{{ url_for('logout') }}">Log Out</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
 
     <h1> Welcome to your dashboard </h1>
     <br>
-    <h1>Enter Receipt</h1>
+    <h2> Please enter your receipt<h2>
     <form method="POST" enctype="multipart/form-data">
         <div id="drop-area">
-            <label id="file-label">Drag & Drop your file here or Click to Upload</label>
+            <label id="file-label"> Drag & drop your file here or click to upload </label>
             <input type="file" name="receipt_file" id="file-input" hidden>
         </div>
-        <button type="submit">Upload</button>
+        <div class="dash-button-container">
+          <button type="submit" class="dashboard-button a-dash">Upload</button>
+          <form method="POST">
+            <button type="submit" name="action" value="analyse" class="dashboard-button a-dash">Analyze</button>
+          </form>
+        </div>
+      </form>
+        
     </form>
 
   {% if upload_message %}
@@ -48,11 +67,6 @@
   {% endif %}
 
   <br>
-
-  <form method="POST">
-      <br>
-      <button type="submit" name="action" value="analyse">Analyse</button>
-  </form>
     
     <br>
     <a href="{{url_for('account')}}">Your account</a>
@@ -73,7 +87,7 @@
     <h1>Somme : {{sum}}</h1>
     <br>
 
-    <h1>Pie Chart Example</h1>
+    <h1>Pie chart</h1>
     <img src="{{chart_url}}" alt="Pie Chart">
     <br>
 
