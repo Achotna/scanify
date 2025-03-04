@@ -20,6 +20,11 @@ import os
 from models.ocr_me import ImageReader, Language
 from werkzeug.utils import secure_filename
 
+from dotenv import load_dotenv
+load_dotenv()
+api_key = os.getenv("ANTHROPIC_API_KEY")
+openai.api_key=api_key
+
 
 
 categories = ("Alimentation", "Hygiène et beauté", "Entretien de la maison", "Animaux", "Électronique et multimédia", "Vêtements et accessoires", "Maison et décoration", "Loisirs et papeterie", "Santé", "Emballages")

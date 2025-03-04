@@ -1,10 +1,8 @@
-from kivy.app import App
-from kivy.uix.label import Label
+from dotenv import load_dotenv
+import os
 
-class MyApp(App):
-    def build(self):
-        label = Label(text="Elisa")
-        return label
-    
-app = MyApp()
-app.run()
+# Charger les variables d'environnement depuis le fichier .env
+load_dotenv()
+
+# Récupérer la clé API
+api_key = os.getenv("ANTHROPIC_API_KEY")
