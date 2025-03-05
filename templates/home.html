@@ -28,58 +28,63 @@
       <div class="scanify-title">Scanify</div>
       <ul class="nav-links" id="nav-links">
         <li>│</li>
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('about') }}">About us</a></li>
+        <li><a href="{{ url_for('home') }}"> Accueil </a></li>
+        <li><a href="{{ url_for('about') }}"> A propos</a></li>
+        <li><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
+        <li>│</li>
+        <li><a href="{{url_for('account')}}"> Compte</a></li>
+        <li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
       </ul>
-      <!-- Dropdown and triangle button next to user pfp -->
-      <div class="profile-dropdown">
-        <div class="profile-toggle">
-          <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
-          <button class="dropdown-arrow">&#9660;</button> 
-        </div>
-        <ul class="dropdown-menu">
-          <li><a href="{{ url_for('login') }}">Account Information</a></li>
-          <li><a href="{{ url_for('logout') }}">Log Out</a></li>
-        </ul>
-      </div>
+      <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
     </nav>
   </header>
-</body>
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script> 
 
   <div id="particles-js"></div>
     <div class="title-container">
-      <h1 id="main_title" class="main_title"><span>Manage your expenses now</span></h1>
+      <h1 id="main_title" class="main_title"><span> Prenez le contrôle de vos dépenses dès maintenant</span></h1>
       <div class="get-started-container">
-        <a href="{{ url_for('register') }}" class="get-started-button a_main">Get started</a>
+        <a href="{{ url_for('register') }}" class="get-started-button a_main">Commencer</a>
       </div>
   </div>
-  
-  <body>
+
   <section class="features-section">
-    <h1> Our features </h1>
+    <h1> Nos fonctionnalités </h1>
     <div class="cards-container">
       <div class="card" data-aos="fade-right" data-aos-delay="100">
         <img src="path/to/icon1.svg" alt="Expense Tracking" class="card-icon">
-        <h3>Expense Tracking</h3>
-        <p>Track your expenses in real-time with our intuitive tools.</p>
+        <h3>Suivi des dépenses</h3>
+        <p>Suivez vos dépenses en temps réel avec nos outils intuitifs.</p>
       </div>
       <div class="card" data-aos="fade-right" data-aos-delay="200">
         <img src="path/to/icon2.svg" alt="Budget Planning" class="card-icon">
-        <h3>Budget Planning</h3>
-        <p>Create and manage budgets to achieve your financial goals.</p>
+        <h3>Analyse Instantanée</h3>
+        <p>Téléchargez votre reçu et découvrez où et comment vous dépensez.</p>
       </div>
       <div class="card" data-aos="fade-right" data-aos-delay="300">
         <!-- Add content for the third card here -->
         <img src="path/to/icon3.svg" alt="Another Feature" class="card-icon">
-        <h3>Another Feature</h3>
-        <p>Description of another feature.</p>
+        <h3> Vue d'ensemble </h3>
+        <p>Consultez vos habitudes de consommation à l'aide de tableaux et graphiques simples.</p>
       </div>
-      <!-- Add more cards here if needed -->
+      <div class="card" data-aos="fade-right" data-aos-delay="100">
+        <img src="path/to/icon2.svg" alt="Budget Planning" class="card-icon">
+        <h3>Méthodes de paiement</h3>
+        <p>Comparez vos paiements en espèces et par carte pour mieux comprendre vos dépenses.</p>
+      </div>
+      <div class="card" data-aos="fade-right" data-aos-delay="200">
+        <img src="path/to/icon2.svg" alt="Budget Planning" class="card-icon">
+        <h3> Un coup d'oeil rapide sur vos tendances</h3>
+        <p> Consultez le montant de vos dépenses et suivez leur évolution quotidienne et mensuelle.</p>
+      </div>
+      <div class="card" data-aos="fade-right" data-aos-delay="300">
+        <img src="path/to/icon2.svg" alt="Budget Planning" class="card-icon">
+        <h3>Objectifs d'économies</h3>
+        <p>Fixez des objectifs de dépenses et suivez vos progrès pour mieux gérer vos finances.</p>
+      </div>
     </div>
   </section>
-  </body>
-
-
+  
+</body>
 </html>

@@ -1,15 +1,20 @@
 ELISA
 drop drag in white                              -> OK (used glass morphism cuz it's better tho)
 title for login and sign in                     -> OK 
-user image reditect to account
-cuouleur des <p> en blanc
-Dashboard msie en page
+user image reditect to account                  -> Le account est déjà un bouton à côté donc c'est encore utile?
+cuouleur des <p> en blanc                       -> OK
+Dashboard msie en page                          
 styliser les boutons upload et analyse          -> OK
-un truc info (i avec un round) et quand on clique dessus mimi message qui explique qu'il faut upload le fichie pui scliquer sur upload puis sur analyse                       -> On peut juste le mettre dans un <p>
-merge about us and contact (probably delete contact)           -> OK
-syliser le bouton press to log out et account 
+un truc info (i avec un round) et quand on clique 
+dessus mimi message qui explique qu'il faut upload 
+le fichie pui scliquer sur upload puis sur analyse              -> OK je l'ai juste mis dans un <p>
+merge about us and contact (probably delete contact)            -> OK
+syliser le bouton press to log out et account                   -> OK
 
 problem dash topbar overriding user_img when small sized screen
+-> Make navbar that works for everyone using hamburger menu + fix problem homepage 
+
+Version française -> OK sauf les boutons register et login + les input 
 
 
 ANTONINA

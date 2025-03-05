@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial scale=1.0">
-  <title> Account </title>
+  <title> Compte </title>
   <script src="https://unpkg.com/scrollreveal"></script>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -27,26 +27,19 @@
       <div class="scanify-title">Scanify</div>
       <ul class="nav-links" id="nav-links">
         <li>│</li>
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('about') }}">About us</a></li>
-        <li><a href="{{url_for('dashboard')}}">Dashboard</a></li>
+        <li><a href="{{ url_for('home') }}"> Accueil </a></li>
+        <li><a href="{{ url_for('about') }}"> A propos</a></li>
+        <li><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
+        <li>│</li>
+        <li><a href="{{url_for('account')}}"> Compte</a></li>
+        <li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
       </ul>
-      <!-- Dropdown and triangle button next to user pfp -->
-      <div class="profile-dropdown">
-        <div class="profile-toggle">
-          <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
-          <button class="dropdown-arrow">&#9660;</button> 
-        </div>
-        <ul class="dropdown-menu">
-          <li><a href="{{ url_for('login') }}">Account Information</a></li>
-          <li><a href="{{ url_for('logout') }}">Log Out</a></li>
-        </ul>
-      </div>
+      <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
     </nav>
   </header>
 
-    <h1> You're logged in as {{current_username}}</h1>  
-    <p>Your username is {{current_username}}</p>
+    <h1> Bienvenue sur votre espace, {{current_username}}</h1>  
+    <p> vous êtes actuellement connectés en tant que {{current_username}}</p>
 </body>
 
 </html>

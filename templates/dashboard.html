@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial scale=1.0">
-  <title> Dashboard </title>
+  <title> Tableau de bord </title>
   <script src="https://unpkg.com/scrollreveal"></script>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -26,37 +26,30 @@
     <div class="scanify-title">Scanify</div>
     <ul class="nav-links" id="nav-links">
       <li>│</li>
-      <li><a href="{{ url_for('home') }}">Home</a></li>
-      <li><a href="{{ url_for('about') }}">About us</a></li>
-      <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
+      <li><a href="{{ url_for('home') }}"> Accueil </a></li>
+      <li><a href="{{ url_for('about') }}"> A propos</a></li>
+      <li><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
+      <li>│</li>
+      <li><a href="{{url_for('account')}}"> Compte</a></li>
+      <li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
     </ul>
-    <!-- Dropdown and triangle button next to user pfp -->
-    <div class="profile-dropdown">
-      <div class="profile-toggle">
-        <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
-        <button class="dropdown-arrow">&#9660;</button> 
-      </div>
-      <ul class="dropdown-menu">
-        <li><a href="{{ url_for('login') }}">Account Information</a></li>
-        <li><a href="{{ url_for('logout') }}">Log Out</a></li>
-      </ul>
-    </div>
+    <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
   </nav>
 </header>
 
 <body>
-    <h1> Welcome to your dashboard </h1>
+    <h1> Bienvenue sur votre tableau de bord </h1>
     <br>
-    <h2> ─── Please enter your receipt. Press "upload" then "analyze" to start analysis. ─── <h2>
+    <h2> ─── Veuillez entrer votre reçu. Appuyez sur 'téléverser' puis sur 'analyser' pour commencer l'analyse. ─── <h2>
     <form method="POST" enctype="multipart/form-data">
         <div id="drop-area" class="drop-area">
-            <label id="file-label"> Drag & drop your file here or click to upload </label>
+            <label id="file-label"> Faites glisser et déposez votre fichier ici ou cliquez pour télécharger. </label>
             <input type="file" name="receipt_file" id="file-input" hidden>
         </div>
         <div class="dash-button-container">
-          <button type="submit" class="dashboard-button a-dash">Upload</button>
+          <button type="submit" class="dashboard-button a-dash">Téléverser</button>
           <form method="POST">
-            <button type="submit" name="action" value="analyse" class="dashboard-button a-dash">Analyze</button>
+            <button type="submit" name="action" value="analyse" class="dashboard-button a-dash">Analyser</button>
           </form>
         </div>
       </form>
@@ -67,16 +60,8 @@
   <div class="alert alert-info">{{ upload_message }}</div>
   {% endif %}
 
-  <br>
-    
     <br>
-    <a href="{{url_for('account')}}">Your account</a>
-    <br>
-    <a href="{{url_for('logout')}}">Press here to log out</a>
-
-
-    <br>
-    <h1> ChatGPT Response </h1>  
+    <h1> Votre espace : </h1>  
 
     <br>
 
@@ -86,35 +71,29 @@
     <h1>Somme : {{sum}}</h1>
     <br>
 
-    <h1>Pie chart</h1>
     <img src="{{chart_url}}" alt="Pie Chart">
     <br>
 
-    <h1>Bar Chart Days</h1>
+    <h1> Dépenses journalières</h1>
     <img src="{{bar_d_url}}" alt="Bar Chart">
 
     <br>
 
-    <h1>Bar Chart Months</h1>
+    <h1> Dépenses mensuelles</h1>
     <img src="{{bar_m_url}}" alt="Bar Chart">
-
-
 
     <br>
 
-    <h1>Table Example</h1>
+    <h1> Vos catégories de dépenses </h1>
     <img src="{{tab_url}}" alt="Tab Chart">
 
     <br>
 
-    <h1>Table Example</h1>
+    <h1> Vos types de paiement les plus utilisés</h1>
     <img src="{{chart_pay_url}}" alt="Pie Chart Pay Method">
 
     <br>
     <p>Shops {{nom_magasins}}</p>
-
-
-
 
 </body>
 

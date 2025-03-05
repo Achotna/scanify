@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial scale=1.0">
-  <title> About </title>
+  <title> A propos </title>
   <script src="https://unpkg.com/scrollreveal"></script>
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
@@ -27,27 +27,25 @@
       <div class="scanify-title">Scanify</div>
       <ul class="nav-links" id="nav-links">
         <li>│</li>
-        <li><a href="{{ url_for('home') }}">Home</a></li>
-        <li><a href="{{ url_for('about') }}">About us</a></li>
+        <li><a href="{{ url_for('home') }}"> Accueil </a></li>
+        <li><a href="{{ url_for('about') }}"> A propos</a></li>
+        <li><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
+        <li>│</li>
+        <li><a href="{{url_for('account')}}"> Compte</a></li>
+        <li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
       </ul>
-      <!-- Dropdown and triangle button next to user pfp -->
-      <div class="profile-dropdown">
-        <div class="profile-toggle">
-          <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
-          <button class="dropdown-arrow">&#9660;</button> 
-        </div>
-        <ul class="dropdown-menu">
-          <li><a href="{{ url_for('login') }}">Account Information</a></li>
-          <li><a href="{{ url_for('logout') }}">Log Out</a></li>
-        </ul>
-      </div>
+      <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
     </nav>
   </header>
-</body>
-  
 
-  <h1 id="about_title"></h1>
-  <p> This app is here to help you manage your expenses</p>
+  <h1 id="about_title"> A propos </h1>
+  <div class="about_container">
+  <h2> Notre équipe </h2> <br>
+  <p> Ce projet a pris vie à l'aide de deux personnes : Antonina Savchenko et Elisa Salignon, élèves du lycée Jean Sturm et élèves de NSI. </p>
+  <br>
+  <h2> Notre site </h2> <br>
+  <p> Ce site a été réalisé par Antonina Savchenko et Elisa Salignon dans le cadre l'édition 2025 des Trophées de NSI.</p>
+  </div>
  
 </body>
 </html>
