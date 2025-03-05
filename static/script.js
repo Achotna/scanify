@@ -200,4 +200,27 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
   
+// ---------------------------------------------------------------------------
 
+document.addEventListener("DOMContentLoaded", function () {
+  const ctx = document.getElementById("jsPieChart").getContext("2d");
+
+  new Chart(ctx, {
+    type: "pie",
+    data: {
+      labels: ["Alimentation", "Transport", "Entretien", "Multimédia"],
+      datasets: [{
+        data: [30, 20, 25, 25], 
+        backgroundColor: ["#6a7998", "#3f4d58", "#B1B3B5", "#919191"]
+      }]
+    },
+    options: {
+      animation: {
+        animateRotate: true, 
+        duration: 2000 
+      },
+      responsive: true,
+      maintainAspectRatio: false
+    }
+  });
+});

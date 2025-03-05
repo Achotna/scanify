@@ -388,6 +388,7 @@ input:focus {
   margin: 0 auto;
   display: block;
 }
+
 /* UI CARDS  -------------------------------------------------------------------------------------------------*/
 
 .features-section {
@@ -473,7 +474,12 @@ input:focus {
 .card:hover {
   transform: translateY(-10px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-  animation: none; /* Disable floating animation on hover */
+  animation: none; 
+}
+
+.card canvas {
+  width: 100%;
+  height: 250px; 
 }
 
 /* DASHBOARD PART --------------------------------------------------------------------------------------------*/
