@@ -1,21 +1,21 @@
 ELISA
-drop drag in white                              -> OK (used glass morphism cuz it's better tho)
-title for login and sign in                     -> OK 
-user image reditect to account                  -> Le account est déjà un bouton à côté donc c'est encore utile?
-cuouleur des <p> en blanc                       -> OK
-Dashboard msie en page                          
-styliser les boutons upload et analyse          -> OK
-un truc info (i avec un round) et quand on clique 
+user image reditect to account -> Le account est déjà un bouton à côté donc c'est encore utile? au cas ou non ?
+Dashboard MISE EN PAGE                         
 dessus mimi message qui explique qu'il faut upload 
-le fichie pui scliquer sur upload puis sur analyse              -> OK je l'ai juste mis dans un <p>
-merge about us and contact (probably delete contact)            -> OK
-syliser le bouton press to log out et account                   -> OK
-
-
 problem dash topbar overriding user_img when small sized screen
 -> Make navbar that works for everyone using hamburger menu + fix problem homepage 
 
 Version française -> OK sauf les boutons register et login + les input 
+
+
+# drop drag in white                              -> OK
+# title for login and sign in                     -> OK 
+# cuouleur des <p> en blanc                       -> OK
+# styliser les boutons upload et analyse          -> OK
+# le fichie pui scliquer sur upload puis sur analyse              -> OK je l'ai juste mis dans un <p>
+# merge about us and contact (probably delete contact)            -> OK
+# syliser le bouton press to log out et account                   -> OK
+
 
 
 ANTONINA
@@ -23,11 +23,11 @@ compte accessible que quand connecté
 colpte apparait que quand connecté
 reponse de chat
 magasin
-page account rajouter des trucs
+page account rajouter des trucs -> supprimer page account?
 rajouter des trucs sur home
 compte message d'erreur
-manger
+# manger
 
 TOUT LE MONDE
-Ne pas mourir 
+# Ne pas mourir
 Eventuellement faire une version en anglais 
