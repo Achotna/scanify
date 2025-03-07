@@ -91,7 +91,7 @@ def chat_with_gpt(categories, ticket_brut):
     try:
         response = openai.ChatCompletion.create(
         model="gpt-4",  # or "gpt-3.5-turbo"
-        messages=[{"role": "user", "content": f"(n'ecris pas d'autres reponse que json format partir de un ticket de caisse avec les infos importantes (inclue 'Nom du magasin', 'Date' date sans l'heure sous format JJ/MM/AAAA,   'Total' en float sans caractere speciaux, 'Type de paiement' E pour especes ou CB pour carte bancaire, 'Articles', dans 'Articles' fais un sous dictionnaire avec 'Nom_article', 'Catégorie' (utilise les categories uniquement ! {categories}), 'Prix', ne fais fait 'quantité' mais ajoute l'article comme tel) voici le ticket de caisse {ticket_brut}  et fais tres attention au nombre de chaque article et s'il y a des articles plusieurs fois dans le ticket, tu dois les mettre dans le disctionnaire séparément"}]
+        messages=[{"role": "user", "content": f"(n'ecris pas d'autres reponse que json format partir de un ticket de caisse avec les infos importantes (inclue 'Nom du magasin'(premiere lettre en majuscule et apres tout en minuscule), 'Date' date sans l'heure sous format JJ/MM/AAAA,   'Total' en float sans caractere speciaux, 'Type de paiement' E pour especes ou CB pour carte bancaire, 'Articles', dans 'Articles' fais un sous dictionnaire avec 'Nom_article', 'Catégorie' (utilise les categories uniquement ! {categories}), 'Prix', ne fais fait 'quantité' mais ajoute l'article comme tel) voici le ticket de caisse {ticket_brut}  et fais tres attention au nombre de chaque article et s'il y a des articles plusieurs fois dans le ticket, tu dois les mettre dans le disctionnaire séparément"}]
             )
         chat_response = response['choices'][0]['message']['content']
         return chat_response
@@ -272,6 +272,7 @@ def dashboard():
             # Loop through all receipts associated with the user and print them
                 for receipt in current_user.receipts:
                     sum=float(receipt.amount)+sum
+                    dernier_somme_ajoute=float(receipt.amount)
                 print("Somme", sum)
     else:
                 print(f"No user.")
@@ -293,8 +294,12 @@ def dashboard():
                 months={}
                 especes=0
                 cb=0
+                #derneirs articles________________________________________________________________________________________________________________________________
+                derniers_articles=[]
                 for receipt in current_user.receipts:
+                    #derniers_articles.append(receipt.articles)
                     for article in receipt.articles: 
+                        derniers_articles.append(article.get('Nom_article'))
                         #categories_amount[article.get("Catégorie")]+=float(article.get("Prix",0))
                         categorie = article.get("Catégorie")
                         prix = float(article.get("Prix", 0))  # Assure-toi que c'est bien un float
@@ -325,14 +330,10 @@ def dashboard():
                     elif receipt.payment_method == 'CB':
                          cb=cb+1
                          
-
-
-
-
                 
                 data_categories=categories_amount
                 x = [key for key, value in data_categories.items() if value > 0]
-                y=[value for value in data_categories.values() if value > 0]
+                y = [value for value in data_categories.values() if value > 0]
 
                 #TABLEAU
                 tableau = [["Catégorie", "Montant (€)"]] + [[key, round(value, 2)] for key, value in categories_amount.items()]
@@ -448,7 +449,20 @@ def dashboard():
                 chart_pay_path = os.path.join('static', 'chart_pay.png')
                 plt.savefig(chart_pay_path)
                 plt.close()
-    return render_template('dashboard.html', upload_message=upload_message, chat_with_gpt_html=new_receipt,  chart_url=url_for('static', filename=('chart_categories.png')),  bar_d_url=url_for('static', filename=('bar_days.png')), bar_m_url=url_for('static', filename=('bar_months.png')), tab_url=url_for('static', filename=('tab_produits_par_categories.png')), chart_pay_url=url_for('static', filename=('chart_pay.png')), sum=sum, nom_magasins=nom_magasins)
+
+                #trouver le dernier ticket!!!!!!! actuuel : [<Receipt 26>, <Receipt 27>, <Receipt 28>, <Receipt 29>, <Receipt 30>]
+                print(dernier_somme_ajoute)
+                #print(derniers_articles)
+
+                #print(dernier_ticket_articles)
+                #somme_ajoutée=dernier_ticket.amount()
+                #derniers_articles=dernier_ticket.articles()
+                #print('dernier somme ajoutée', somme_ajoutée)
+                #print('derniers articles', derniers_articles)
+
+                print("La réponse de chat_gpt : ", new_receipt)
+
+    return render_template('dashboard.html', derniers_articles=derniers_articles, dernier_somme_ajoute=dernier_somme_ajoute, current_username=current_user.username.capitalize(), upload_message=upload_message, chat_with_gpt_html=new_receipt,  chart_url=url_for('static', filename=('chart_categories.png')),  bar_d_url=url_for('static', filename=('bar_days.png')), bar_m_url=url_for('static', filename=('bar_months.png')), tab_url=url_for('static', filename=('tab_produits_par_categories.png')), chart_pay_url=url_for('static', filename=('chart_pay.png')), sum=sum, nom_magasins=nom_magasins)
 
 
 
