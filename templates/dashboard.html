@@ -38,7 +38,7 @@
 </header>
 
 <body>
-    <h1> Bienvenue sur votre tableau de bord <BR> {{current_username}}</h1>
+    <h1> Bienvenue sur votre tableau de bord, <br>{{current_username}}</h1>
     <br>
     <p> Vous êtes actuellement connectés en tant que {{current_username}}</p>
     <br>
@@ -103,15 +103,17 @@
 
     <br>
     <h1>Vos articles</h1>
+  <div class="scroll-box">
     <ul>
-      {% if derniers_articles %}
-      {% for article in derniers_articles %}
-          <li>{{article}}</li>
-      {% endfor %}
-      {% else %}
-      <p>Aucun article</p>
-      {% endif %}
+        {% if derniers_articles %}
+        {% for article in derniers_articles %}
+            <li>{{ article }}</li>
+        {% endfor %}
+        {% else %}
+        <p>Aucun article</p>
+        {% endif %}
     </ul>
+  </div>
 
 
 

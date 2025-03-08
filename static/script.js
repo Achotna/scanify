@@ -210,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
     data: {
       labels: ["Alimentation", "Transport", "Entretien", "Multimédia"],
       datasets: [{
-        data: [30, 20, 25, 25], 
+        data: [300, 70, 80, 250], 
         backgroundColor: ["#6a7998", "#3f4d58", "#B1B3B5", "#919191"]
       }]
     },

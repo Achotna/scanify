@@ -1,10 +1,14 @@
 ELISA
 user image reditect to account -> Le account est déjà un bouton à côté donc c'est encore utile? au cas ou non ?
-Dashboard MISE EN PAGE                         
+
+Dashboard MISE EN PAGE        
+
 problem dash topbar overriding user_img when small sized screen
 -> Make navbar that works for everyone using hamburger menu + fix problem homepage 
+
 placer ligne 43 de html dashboard à un meilleure endroit (le coté ?)
 suprrimer compte de la bar 
+
 mettre les <li> en blanc
 encadré autour de la liste de smagasins ? 
 rajouter un bas de page avec nos noms + contact + autres choses ? re logo? 
@@ -15,6 +19,7 @@ inspi pour la home page : https://www.pleo.io/fr?gclid=CjwKCAiAw5W-BhAhEiwApv4go
 
 
 # dessus mimi message qui explique qu'il faut upload 
+
 # Version française -> OK sauf les boutons register et login + les input 
 # drop drag in white                              -> OK
 # title for login and sign in                     -> OK 
