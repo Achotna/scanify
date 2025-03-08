@@ -33,6 +33,7 @@
       <li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
     </ul>
     <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
+    <li style="list-style: none; padding-left: 1rem">{{current_username}}</li>
   </nav>
 </header>
 
@@ -71,11 +72,19 @@
   
   <div class="charts-container">
     <div class="chart-item">
+      <h2> ─── Répartition des dépenses ─── </h2>
+      <div class="chart-graph">
+        <img src="{{chart_url}}" alt="Pie Chart">
+      </div>
+    </div>
+
+  <div class="charts-container">
+    <div class="chart-item">
       <h2> ─── Dépenses journalières ─── </h2>
       <div class="chart-graph">
         <img src="{{bar_d_url}}" alt="Bar Chart Journalières">
       </div>
-    </div>
+  </div>
     
     <div class="chart-item">
       <h2> ─── Dépenses mensuelles ───</h2>
