@@ -9,18 +9,16 @@ from flask_bcrypt import Bcrypt
 #from sqlalchemy.dialects.postgresql import JSON #ADDED
 import json
 from datetime import datetime
-
 import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-
 import os
-
-
 from models.ocr_me import ImageReader, Language
 from werkzeug.utils import secure_filename
-
 from dotenv import load_dotenv
+
+
+matplotlib.use('Agg')
+
 load_dotenv()
 api_key = os.getenv("ANTHROPIC_API_KEY")
 openai.api_key=api_key
