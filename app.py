@@ -366,7 +366,7 @@ def dashboard():
                 fig, ax = plt.subplots(figsize=(8, 5), facecolor='none')
                 plt.bar([key for key, value in dates.items() if value > 0], [value for value in dates.values() if value > 0], color='#6a7998')
                 #bar change
-                plt.title('Money spent according to days', fontsize=14, fontweight='bold', color='#dddee3')
+                #plt.title('Money spent according to days', fontsize=14, fontweight='bold', color='#dddee3')
                 plt.xlabel('Dates', fontsize=12, color='white')
                 plt.ylabel('Money spent (€)', fontsize=12, color='white')
                 plt.grid(axis='y', linestyle='--', alpha=0.5, color='gray')
@@ -387,7 +387,7 @@ def dashboard():
                 fig, ax = plt.subplots(figsize=(8, 5), facecolor='none')
                 plt.bar([key for key, value in months.items() if value > 0], [value for value in months.values() if value > 0], color='#b7ccd1')
                 #bar months
-                plt.title('Money spent according to months', fontsize=14, fontweight='bold', color='#dddee3')
+                #plt.title('Money spent according to months', fontsize=14, fontweight='bold', color='#dddee3')
                 plt.xlabel('Months', fontsize=12, color='white')
                 plt.ylabel('Money spent (€)', fontsize=12, color='white')
                 plt.grid(axis='y', linestyle='--', alpha=0.5, color='gray')
@@ -420,7 +420,7 @@ def dashboard():
                     text.set(fontsize=13, fontweight="bold", color='white')
                 for autotext in autotexts:
                     autotext.set(fontsize=13, fontweight="bold", color='#1d1e1d')
-                plt.title("Répartition des Dépenses", fontsize=18, fontweight="bold", color="#dddee3")
+                #plt.title("Répartition des Dépenses", fontsize=18, fontweight="bold", color="#dddee3")
                 plt.gca().set_facecolor('none')
 
                 chart_path = os.path.join('static', 'chart_categories.png')
@@ -439,7 +439,7 @@ def dashboard():
                     text.set(fontsize=13, fontweight="bold", color='white')
                 for autotext in autotexts:
                     autotext.set(fontsize=13, fontweight="bold", color='#1d1e1d')
-                plt.title("Type de paiement", fontsize=18, fontweight="bold", color="#dddee3")
+                #plt.title("Type de paiement", fontsize=18, fontweight="bold", color="#dddee3")
                 plt.gca().set_facecolor('none')
 
 
@@ -459,6 +459,9 @@ def dashboard():
                 #print('derniers articles', derniers_articles)
 
                 print("La réponse de chat_gpt : ", new_receipt)
+
+                derniers_articles.reverse()
+                nom_magasins.reverse()
 
     return render_template('dashboard.html', derniers_articles=derniers_articles, dernier_somme_ajoute=dernier_somme_ajoute, current_username=current_user.username.capitalize(), upload_message=upload_message, chat_with_gpt_html=new_receipt,  chart_url=url_for('static', filename=('chart_categories.png')),  bar_d_url=url_for('static', filename=('bar_days.png')), bar_m_url=url_for('static', filename=('bar_months.png')), tab_url=url_for('static', filename=('tab_produits_par_categories.png')), chart_pay_url=url_for('static', filename=('chart_pay.png')), sum=sum, nom_magasins=nom_magasins)
 
