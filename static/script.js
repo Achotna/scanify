@@ -224,3 +224,30 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+// Animated bubble notification ------------------------------------------------------------------------------//
+
+function updateSum(newSum) {
+  const sumElement = document.getElementById('sum-value');
+  const notificationBubble = document.getElementById('notification-bubble');
+  const addedValue = document.getElementById('added-value');
+
+  const previousSum = parseFloat(sumElement.textContent);
+  const addedAmount = parseFloat(addedValue.textContent);
+  const newTotal = previousSum + addedAmount;
+
+  notificationBubble.textContent = `+${addedAmount}`;
+  notificationBubble.style.visibility = 'visible';
+  notificationBubble.style.opacity = 1;
+
+  setTimeout(() => {
+      sumElement.textContent = newTotal;
+  }, 2000);
+
+  setTimeout(() => {
+      notificationBubble.style.opacity = 0;
+      notificationBubble.style.visibility = 'hidden';
+  }, 2500);
+}
+
+updateSum(200);

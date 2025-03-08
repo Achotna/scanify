@@ -16,16 +16,21 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 2rem;
+  padding-top: 10vh;
+  margin: 0;
 }
 
 h2 {
   color: rgb(224, 224, 224); 
   font-size: 1rem; 
   font-family: 'Inter', sans-serif;
-  text-align: left; 
+  text-align: center; 
   margin: 0; 
   padding: 0; 
+}
+
+main {
+  flex-grow:1;
 }
 
 .container {
@@ -555,7 +560,144 @@ input:focus {
   font-size: 0.9rem
 }
 
+/* SUM BOX -----------------------------------------------------------------------------------------------*/
+
+.sum-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  max-width: 300px;
+  width: 100%;
+  margin-top: 2rem; 
+  margin-bottom: 2rem; 
+  position: relative;
+  animation: none; 
+  margin: 2rem auto; 
+}
+
+.notification-bubble {
+  position: absolute;
+  bottom: 20px; 
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  background-color: rgba(59, 64, 92, 0.8);
+  border-radius: 30px;
+  color: white;
+  font-size: 1.2rem;
+  opacity: 0; 
+  animation: pop-up 1s ease-out forwards, float-up 2s ease-in-out forwards;
+  pointer-events: none; 
+}
+
+@keyframes pop-up {
+  0% {
+    transform: translateX(-50%) scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) scale(1);
+  }
+}
+
+@keyframes float-up {
+  0% {
+    bottom: 20px;
+  }
+  100% {
+    bottom: 70px; 
+  }
+}
+
+#sum-value {
+  transition: 0.5s ease;
+  font-size: 2rem;
+}
+
+/* GRAPHS ------------------------------------------------------------------------------------------*/
+/* Container 1: Wraps all chart items and centers them */
+.charts-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;  /* Centers items horizontally */
+  gap: 20px;                /* Space between each chart item */
+  padding: 20px;
+  box-sizing: border-box;
+  margin: 0 auto;
+}
+
+/* Container 2: Each chart block with title and graph container */
+.chart-item {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  max-width: 600px; /* Increase or adjust based on your needs */
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Center the title inside the chart item */
+.chart-item h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  font-family:"DM Serif Text", serif;
+  margin-bottom: 10px;
+  color: #d7d7d7;
+}
+
+/* Container 3: Holds the graph and makes it responsive */
+.chart-graph {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Ensures no scrollbars appear */
+}
+
+/* Ensure images fit properly */
+.chart-graph img {
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+/* Responsive adjustments if needed */
+@media (max-width: 768px) {
+  .chart-item h2 {
+      font-size: 1.2rem;
+  }
+}
+
 /* SCROLL BOX --------------------------------------------------------------------------------------*/
+
+.container-dash {
+  display: flex;
+  justify-content: center;
+  align-items:flex-start;
+  gap: 20px; 
+  flex-wrap: wrap; 
+  max-width: 900px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.section-dash {
+  flex: 1; 
+  min-width: 300px; 
+  text-align: center;
+  display: flex; 
+  flex-direction: column;
+  align-items: center;
+}
 
 .scroll-box {
   width: 90%; 
@@ -571,6 +713,7 @@ input:focus {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
 }
+
 
 .scroll-box ul {
   list-style: none;
@@ -595,8 +738,63 @@ input:focus {
   transform: scale(1.05);
 }
 
+.section-dash h1 {
+  text-align: center;
+  margin-bottom: 10px; 
+  width: 100%; 
+  font-family:"DM Serif Text", serif;
+  font-size: clamp(2rem, 6vw, 4rem);
+  color: #d6dfdb;
+  text-align: center;
+  margin: 2rem 0;
+  opacity: 0;
+  animation: slideInFromLeft 1s ease-in-out forwards;
+}
+
 @media (max-width: 600px) {
   .scroll-box {
       max-height: 250px;
   }
+}
+
+/* FOOTER -----------------------------------------------------------------------------------------*/
+
+main {
+  flex: 1;
+  padding-bottom: 100px;
+}
+
+footer {
+  width: 100%; 
+  background-color: #151515;
+  border-top: 1px solid #444;
+  text-align: center;
+  padding: 20px 0;
+  flex-shrink: 0; 
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-logo img {
+  width: auto;
+  height: 30px;
+  border-radius: 50%;
+}
+
+.footer-links a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
+
+.footer-copy {
+  margin-top: 10px;
+  font-size: 0.9rem;
 }

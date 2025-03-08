@@ -30,7 +30,6 @@
       <li><a href="{{ url_for('about') }}"> A propos</a></li>
       <li><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
       <li>│</li>
-      <li><a href="{{url_for('account')}}"> Compte</a></li>
       <li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
     </ul>
     <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
@@ -38,9 +37,8 @@
 </header>
 
 <body>
-    <h1> Bienvenue sur votre tableau de bord, <br>{{current_username}}</h1>
-    <br>
-    <p> Vous êtes actuellement connectés en tant que {{current_username}}</p>
+<main>
+    <h1> Bienvenue sur votre tableau de bord, {{current_username}}</h1>
     <br>
     <h2> ─── Veuillez entrer votre reçu. Appuyez sur 'téléverser' puis sur 'analyser' pour commencer l'analyse. ─── <h2>
     <form method="POST" enctype="multipart/form-data">
@@ -62,61 +60,93 @@
   <div class="alert alert-info">{{ upload_message }}</div>
   {% endif %}
 
+  <br>
 
-    <br>
-    <h1>Somme : {{sum}}</h1>
-    <p>+{{dernier_somme_ajoute}}</p>
-    <br>
-
-    <img src="{{chart_url}}" alt="Pie Chart">
-    <br>
-
-    <h1> Dépenses journalières</h1>
-    <img src="{{bar_d_url}}" alt="Bar Chart">
-
-    <br>
-
-    <h1> Dépenses mensuelles</h1>
-    <img src="{{bar_m_url}}" alt="Bar Chart">
-
-    <br>
-
-    <h1> Vos catégories de dépenses </h1>
-    <img src="{{tab_url}}" alt="Tab Chart">
-
-    <br>
-
-    <h1> Vos types de paiement les plus utilisés</h1>
-    <img src="{{chart_pay_url}}" alt="Pie Chart Pay Method">
-
-    <br>
-    <h1>Magasins visités </h1>
-    <ul>
-      {% if nom_magasins %}
-      {% for magasin in nom_magasins %}
-          <li>{{magasin}}</li>
-      {% endfor %}
-      {% else %}
-      <p>Aucun magasin visité</p>
-      {% endif %}
-    </ul>
-
-    <br>
-    <h1>Vos articles</h1>
-  <div class="scroll-box">
-    <ul>
-        {% if derniers_articles %}
-        {% for article in derniers_articles %}
-            <li>{{ article }}</li>
-        {% endfor %}
-        {% else %}
-        <p>Aucun article</p>
-        {% endif %}
-    </ul>
+  <div class="sum-container">
+    <h2>Somme : <span id="sum-value">{{ sum }} €</span></h2>
+    <div class="notification-bubble" id="notification-bubble">
+      +{{ dernier_somme_ajoute }} €
+    </div>
+  </div>
+  
+  <div class="charts-container">
+    <div class="chart-item">
+      <h2> ─── Dépenses journalières ─── </h2>
+      <div class="chart-graph">
+        <img src="{{bar_d_url}}" alt="Bar Chart Journalières">
+      </div>
+    </div>
+    
+    <div class="chart-item">
+      <h2> ─── Dépenses mensuelles ───</h2>
+      <div class="chart-graph">
+        <img src="{{bar_m_url}}" alt="Bar Chart Mensuelles">
+      </div>
+    </div>
+    
+    <div class="chart-item">
+      <h2> ─── Vos catégories de dépenses ─── </h2>
+      <div class="chart-graph">
+        <img src="{{tab_url}}" alt="Chart Catégories">
+      </div>
+    </div>
+    
+    <div class="chart-item">
+      <h2> ─── Vos types de paiement les plus utilisés ─── </h2>
+      <div class="chart-graph">
+        <img src="{{chart_pay_url}}" alt="Chart Paiement">
+      </div>
+    </div>
+  </div>
+  
+  <div class="container-dash">
+    <div class="section-dash">
+      <h1>Vos articles</h1>
+      <div class="scroll-box">
+        <ul>
+          {% if derniers_articles %}
+            {% for article in derniers_articles %}
+              <li>{{ article }}</li>
+            {% endfor %}
+          {% else %}
+            <p>Aucun article</p>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  
+    <div class="section-dash">
+      <h1>Magasins</h1>
+      <div class="scroll-box">
+        <ul>
+          {% if nom_magasins %}
+            {% for magasin in nom_magasins %}
+              <li>{{ magasin }}</li>
+            {% endfor %}
+          {% else %}
+            <p>Aucun magasin visité</p>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
   </div>
 
+  <div class ="push"></div>
+</main>
 
-
+<footer>
+  <div class="footer-container">
+    <div class="footer-logo">
+     <!--<img src="../static/Design/logo.jpg" alt="Logo Scanify">-->
+    </div>
+    <div class="footer-links">
+      <a href="/about">A propos </a>
+    </div>
+    <div class="footer-copy">
+      <p>&copy; 2025 Scanify. Tous droits reservés.</p>
+    </div>
+  </div>
+</footer>
 </body>
 
 </html>
