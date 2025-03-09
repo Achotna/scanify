@@ -6,7 +6,6 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField,  SubmitField
 from wtforms.validators import InputRequired, Length, ValidationError
 from flask_bcrypt import Bcrypt
-#from sqlalchemy.dialects.postgresql import JSON #ADDED
 import json
 from datetime import datetime
 import matplotlib
@@ -17,31 +16,33 @@ from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
 
 
+
+
+
+#Activation pour les graphs
 matplotlib.use('Agg')
 
+#Cle API
 load_dotenv()
 api_key = os.getenv("ANTHROPIC_API_KEY")
 openai.api_key=api_key
 
-
-
-
-categories = ("Alimentation", "Hygiène et beauté", "Entretien de la maison", "Animaux", "Électronique et multimédia", "Vêtements et accessoires", "Maison et décoration", "Loisirs et papeterie", "Santé", "Emballages", "Transports")
-
-
-# Folder files dropped
+#Dossier pour les fichiers uploadés
 UPLOAD_FOLDER = 'uploads'
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
+#Initialisation Flask
 app = Flask(__name__)
-
 bcrypt = Bcrypt(app)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
 db=SQLAlchemy(app)
+app.config['SECRET_KEY'] = 'a2n7t0o3e8f3d6b49c1a4f78b2d9e37c8f5a0e27e13d6f92b8c4a1d5f0b7e6c3d9a8f2b1'
 
-app.config['SECRET_KEY'] = 'a2n7t0o3'
 
 
+
+
+#Creation des comptes
 login_manager=LoginManager()
 login_manager.init_app(app)
 login_manager.login_view="login"
@@ -49,7 +50,6 @@ login_manager.login_view="login"
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
 
 class User(db.Model, UserMixin):
     id=db.Column(db.Integer, primary_key=True)
@@ -67,7 +67,6 @@ class Receipt(db.Model):
     # Connect both database
     user = db.relationship('User', backref=db.backref('receipts', lazy=True))
 
-
 class RegisterForm(FlaskForm):
     username= StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder":"Username"})
     password=PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder":"Password"})
@@ -76,8 +75,6 @@ class RegisterForm(FlaskForm):
             existing_user_username=User.query.filter_by(username=username.data).first()
             if existing_user_username:
                 raise ValidationError("That username already exists. Please choose a different one.")
-            
-
 
 class LoginForm(FlaskForm):
     username= StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder":"Username"})
@@ -85,11 +82,15 @@ class LoginForm(FlaskForm):
     submit=SubmitField("Login")
 
 
-#keyooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo
+
+
+
+#API
+categories = ("Alimentation", "Hygiène et beauté", "Entretien de la maison", "Animaux", "Électronique et multimédia", "Vêtements et accessoires", "Maison et décoration", "Loisirs et papeterie", "Santé", "Emballages", "Transports")
 def chat_with_gpt(categories, ticket_brut):
     try:
         response = openai.ChatCompletion.create(
-        model="gpt-4",  # or "gpt-3.5-turbo"
+        model="gpt-4",  #aussi "gpt-3.5-turbo"
         messages=[{"role": "user", "content": f"(n'ecris pas d'autres reponse que json format partir de un ticket de caisse avec les infos importantes (inclue 'Nom du magasin'(premiere lettre en majuscule et apres tout en minuscule), 'Date' date sans l'heure sous format JJ/MM/AAAA,   'Total' en float sans caractere speciaux, 'Type de paiement' E pour especes ou CB pour carte bancaire, 'Articles', dans 'Articles' fais un sous dictionnaire avec 'Nom_article', 'Catégorie' (utilise les categories uniquement ! {categories}), 'Prix', ne fais fait 'quantité' mais ajoute l'article comme tel) voici le ticket de caisse {ticket_brut}  et fais tres attention au nombre de chaque article et s'il y a des articles plusieurs fois dans le ticket, tu dois les mettre dans le disctionnaire séparément"}]
             )
         chat_response = response['choices'][0]['message']['content']
@@ -98,37 +99,28 @@ def chat_with_gpt(categories, ticket_brut):
         return f"An error occurred: {e}"
 
 
+
+
+#Les pages
 @app.route("/home")
 def home():
     return render_template('home.html')
-
-@app.route("/account")
-def account():
-    return render_template('account.html')
-
-@app.route("/contact")
-def contact():
-    return render_template('contact.html')
-
 
 @app.route("/about")
 def about():
     return render_template('about.html')
 
-@app.route("/clear_database") #delete at the end.................
+@app.route("/clear_database") #delete at the end...............................................................
 def clear_database():
     db.drop_all()
     db.create_all() 
     return "Database cleared and recreated."
-
 
 @app.route('/lougout', methods=['GET', 'POST'])
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
-
-
 
 @app.route("/register", methods=['GET','POST'])
 def register():
@@ -142,34 +134,39 @@ def register():
     users = User.query.all()
     for user in users:
         print(f"ID: {user.id}, Username: {user.username}, Username: {user.password}")
+    print()
     return render_template('register.html', form=form)
-
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
-        print(f"User found: {user}")  # Check if user is found
+        print(f"User found: {user}") 
+        print()
         if user:
             if bcrypt.check_password_hash(user.password, form.password.data):
-                print("Password is correct")  # Check if password is correct
+                print("Password is correct")
+                print()
                 login_user(user)
                 return redirect(url_for('dashboard'))
             else:
-                print("Password is incorrect")  # Incorrect password
+                print("Password is incorrect") 
+                print()
         else:
-            print("User not found")  # User does not exist
+            print("User not found")
+            print()
 
     return render_template('login.html', form=form)
 
 
 
 
+#Partie l aplus importante
 @app.route("/dashboard", methods=['GET','POST'])
 @login_required
 def dashboard():
-
+    #Extraction du texte
     def process_image(filename):
         ir=ImageReader()
         text=ir.extract_text(os.path.join("uploads", filename), lang=Language.EN.value)
@@ -185,20 +182,18 @@ def dashboard():
 
             if file.filename == '':
                 upload_message = "No file selected!"
-
             elif file:
                 file_path = os.path.join(UPLOAD_FOLDER, file.filename)
                 filename = secure_filename(file.filename) 
                 file.save(file_path)
                 upload_message = f"File '{file.filename}' uploaded successfully!"
                 print(f"File saved to: {file_path}")
-
+                print()
                 ticket_brut=process_image(filename)
                 print(f"Ticket brut after processing: {ticket_brut}")
-
+                print()
 
                 session['ticket_brut'] = ticket_brut
-
 
             else:
                 upload_message = "Something went wrong during file upload."
@@ -209,10 +204,11 @@ def dashboard():
     new_receipt=None
     if 'ticket_brut' in session:
         ticket_brut = session['ticket_brut']
-    print(ticket_brut)
+    
 
 
     print(f"Current user: {current_user.username}")
+    print()
     if request.method == 'POST':
         if 'action' in request.form and request.form['action'] == 'analyse' and ticket_brut!=None:
             # Get user input from the form
@@ -224,8 +220,9 @@ def dashboard():
             #ticket_brut=session.get('ticket_brut')
             new_receipt = chat_with_gpt(categories, ticket_brut)
             #TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-            print("chat                 ", ticket_brut)
-            print("chat                 ", new_receipt)
+            print("Chat-GPT answered : ", ticket_brut)
+            print()
+            #print("chat                 ", new_receipt)
 
 
             #TICKET MISE EN PAGE""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -238,11 +235,12 @@ def dashboard():
             try:
                 new_receipt = json.loads(new_receipt)
                 #TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-                print(type(new_receipt))
-                print(new_receipt['Nom du magasin'])
+                #print(type(new_receipt))
+                #print(new_receipt['Nom du magasin'])
 
             except json.JSONDecodeError:
                 print("Error: The string could not be decoded into a dictionary.")
+                print()
 
 
 
@@ -256,15 +254,19 @@ def dashboard():
                 db.session.commit()  # Commit the changes
                 db.session.refresh(current_user)  # Refresh to ensure we have the latest data
                 print("Commit successful")
+                print()
             except Exception as e:
                 db.session.rollback()  # Roll back on error
                 print("Error during commit:", e)
+                print()
 
             # Print the current user ID and the current receipts for debugging
             if receipt.id:
                 print(f"Receipt added successfully to the person :  {current_user}")
+                print()
             else:
                 print("Failed to add the receipt.")
+                print()
 
     if current_user:
                 sum=0
@@ -272,9 +274,10 @@ def dashboard():
                 for receipt in current_user.receipts:
                     sum=float(receipt.amount)+sum
                     dernier_somme_ajoute=float(receipt.amount)
-                print("Somme", sum)
+                #print("Somme : ", sum)
     else:
                 print(f"No user.")
+                print()
 
     if current_user:
         categories_amount={"Alimentation":0, "Hygiène et beauté":0, "Entretien de la maison":0, "Animaux":0, "Électronique et multimédia":0, "Vêtements et accessoires":0, "Maison et décoration":0, "Loisirs et papeterie":0, "Santé":0, "Emballages":0, "Transports":0}
@@ -283,41 +286,39 @@ def dashboard():
         months={}
         especes=0
         cb=0
-        if not current_user.receipts:  # Vérifie s'il y a au moins un ticket
-            print("Aucun ticket trouvé pour cet utilisateur.")
+        #pas de ticket encore
+        if not current_user.receipts:
+            print("No receipts found")
+            print()
             return render_template('dashboard.html', chat_with_gpt_html=None,  chart_url=None,  bar_d_url=None, bar_m_url=None, tab_url=None, chart_pay_url=None, sum=sum, nom_magasins=None)
         else:
+                #traitement des donnees
                 categories_amount={"Alimentation":0, "Hygiène et beauté":0, "Entretien de la maison":0, "Animaux":0, "Électronique et multimédia":0, "Vêtements et accessoires":0, "Maison et décoration":0, "Loisirs et papeterie":0, "Santé":0, "Emballages":0, "Transports":0}
                 nom_magasins=[]
                 dates={}
                 months={}
                 especes=0
                 cb=0
-                #derneirs articles________________________________________________________________________________________________________________________________
                 derniers_articles=[]
+
                 for receipt in current_user.receipts:
-                    #derniers_articles.append(receipt.articles)
                     for article in receipt.articles: 
                         derniers_articles.append(article.get('Nom_article'))
-                        #categories_amount[article.get("Catégorie")]+=float(article.get("Prix",0))
                         categorie = article.get("Catégorie")
-                        prix = float(article.get("Prix", 0))  # Assure-toi que c'est bien un float
-    
+                        prix = float(article.get("Prix", 0)) 
                         if categorie in categories_amount:
-                            categories_amount[categorie] += prix  # Ajoute le prix au montant existant
+                            categories_amount[categorie] += prix
                         else:
                             categories_amount[categorie] = prix
                     
                     if receipt.shop_name not in nom_magasins:
                         nom_magasins.append(receipt.shop_name)
-                        #print(article.get("Prix", 0))
-
+                        
                     if receipt.date in dates.keys():
 
                         dates[receipt.date]=receipt.amount+dates[receipt.date]
                     else:
                         dates[receipt.date]=receipt.amount
-
 
                     if receipt.date[3:10] in months.keys():
                         months[receipt.date[3:10]]=receipt.amount+months[receipt.date[3:10]]
@@ -333,6 +334,9 @@ def dashboard():
                 data_categories=categories_amount
                 x = [key for key, value in data_categories.items() if value > 0]
                 y = [value for value in data_categories.values() if value > 0]
+
+                plt.rcParams['font.family'] = 'DejaVu Sans'
+                colors = ['#b7ccd1', '#6a7998', '#dddee3', '#879a99', '#3f4d58']
 
                 #TABLEAU
                 tableau = [["Catégorie", "Montant (€)"]] + [[key, round(value, 2)] for key, value in categories_amount.items()]
@@ -353,12 +357,11 @@ def dashboard():
                         cell.set_facecolor('#262931')
                         cell.set_text_props(color='white')
 
-
                 tab_path = os.path.join('static', 'tab_produits_par_categories.png')
                 plt.savefig(tab_path)
                 plt.close()
-
-                print(f"Final category amounts: {categories_amount}")
+#..........................................................................
+                #print(f"Final category amounts: {categories_amount}")
 
 
                 
@@ -366,8 +369,6 @@ def dashboard():
                 #BAR CHART DAYS
                 fig, ax = plt.subplots(figsize=(8, 5), facecolor='none')
                 plt.bar([key for key, value in dates.items() if value > 0], [value for value in dates.values() if value > 0], color='#6a7998')
-                #bar change
-                #plt.title('Money spent according to days', fontsize=14, fontweight='bold', color='#dddee3')
                 plt.xlabel('Dates', fontsize=12, color='white')
                 plt.ylabel('Money spent (€)', fontsize=12, color='white')
                 plt.grid(axis='y', linestyle='--', alpha=0.5, color='gray')
@@ -378,17 +379,13 @@ def dashboard():
                 ax.tick_params(axis='x', colors='white')
                 ax.tick_params(axis='y', colors='white')
 
-
                 bar_d_path = os.path.join('static', 'bar_days.png')
                 plt.savefig(bar_d_path)
                 plt.close()
 
-
                 #BAR CHART MONTHS
                 fig, ax = plt.subplots(figsize=(8, 5), facecolor='none')
                 plt.bar([key for key, value in months.items() if value > 0], [value for value in months.values() if value > 0], color='#b7ccd1')
-                #bar months
-                #plt.title('Money spent according to months', fontsize=14, fontweight='bold', color='#dddee3')
                 plt.xlabel('Months', fontsize=12, color='white')
                 plt.ylabel('Money spent (€)', fontsize=12, color='white')
                 plt.grid(axis='y', linestyle='--', alpha=0.5, color='gray')
@@ -399,18 +396,11 @@ def dashboard():
                 ax.tick_params(axis='x', colors='white')
                 ax.tick_params(axis='y', colors='white')
 
-
                 bar_m_path = os.path.join('static', 'bar_months.png')
                 plt.savefig(bar_m_path)
                 plt.close()
 
-
-
-                #PIE
-                plt.rcParams['font.family'] = 'DejaVu Sans'
-                #change to 'Inter'
-                colors = ['#b7ccd1', '#6a7998', '#dddee3', '#879a99', '#3f4d58']
-
+                #PIE CATEGORIES
                 explode = [0.08 if val == max(y) else 0.03 for val in y]
                 fig, ax = plt.subplots(figsize=(8, 8), facecolor='none')
                 wedges, texts, autotexts = ax.pie(
@@ -421,17 +411,14 @@ def dashboard():
                     text.set(fontsize=13, fontweight="bold", color='white')
                 for autotext in autotexts:
                     autotext.set(fontsize=13, fontweight="bold", color='#1d1e1d')
-                #plt.title("Répartition des Dépenses", fontsize=18, fontweight="bold", color="#dddee3")
                 plt.gca().set_facecolor('none')
 
                 chart_path = os.path.join('static', 'chart_categories.png')
                 plt.savefig(chart_path)
                 plt.close()
 
-
                 #PIE PAY
                 fig, ax = plt.subplots(figsize=(8, 8), facecolor='none')
-
                 wedges, texts, autotexts = ax.pie(
                     [especes, cb], labels=["Espèces", "CB"], autopct='%1.1f%%', startangle=140, colors=colors, pctdistance=0.85,
                     wedgeprops={'edgecolor': '#fff', 'linewidth': 2, 'alpha': 0.9})
@@ -440,26 +427,13 @@ def dashboard():
                     text.set(fontsize=13, fontweight="bold", color='white')
                 for autotext in autotexts:
                     autotext.set(fontsize=13, fontweight="bold", color='#1d1e1d')
-                #plt.title("Type de paiement", fontsize=18, fontweight="bold", color="#dddee3")
                 plt.gca().set_facecolor('none')
-
-
 
                 chart_pay_path = os.path.join('static', 'chart_pay.png')
                 plt.savefig(chart_pay_path)
                 plt.close()
 
-                #trouver le dernier ticket!!!!!!! actuuel : [<Receipt 26>, <Receipt 27>, <Receipt 28>, <Receipt 29>, <Receipt 30>]
-                print(dernier_somme_ajoute)
-                #print(derniers_articles)
-
-                #print(dernier_ticket_articles)
-                #somme_ajoutée=dernier_ticket.amount()
-                #derniers_articles=dernier_ticket.articles()
-                #print('dernier somme ajoutée', somme_ajoutée)
-                #print('derniers articles', derniers_articles)
-
-                print("La réponse de chat_gpt : ", new_receipt)
+                #print("Chat_gpt answered : ", new_receipt)
 
                 derniers_articles.reverse()
                 nom_magasins.reverse()
@@ -469,19 +443,21 @@ def dashboard():
 
 
 
-
 if __name__ == '__main__':
     with app.app_context():
         print("Creating database tables...")
+        print()
         db.create_all() 
         print("Database tables created.")
+        print()
         print("Tables created:", db.metadata.sorted_tables)
+        print()
     app.run(debug=True)
+
 
 #$env:FLASK_APP = "c:/Users/Eleve/Desktop/Lycée/Première/NSI/Myapp/app.py"
 #$env:FLASK_DEBUG = "1"
 #python -m flask run
 
 #ACTION 4371 Lampertheim Rue des Mercuriales 28-09-2024 19:16:03 437110670112775 ARTICLES Lien 4371106-10122210 3004540 plat 12x5.5cm blanc EUR 1,08 opale verre 2 x 0,54 2555411 sot paillassons 5,77 multifonct. 6pcs 40x40cm 2530412 plastique bac à peinture 29x36cm 0.99 2529028 6sselte bac à courrier transparent 3 x 1.88 5,64 TOTAL 13,48 MODE DE PAIEMEN Carte 13,48 NOMBRE D'ARTICLES: 7 20% DETAILS TVA TVA 2,25 Excl 11,23 Incl. 13,48 TOTAL 2,25 11,23 13,48 Date 28/09/2024 Heure 19:15:57 Nom d'usage CB INVENTIVE AID MID TID Mode de saisie Auth. code Carte PAN seq. Tender Total A0000000421010 P400Plus-806056137 Puce sans contact 225148 ****6087 00 WpcJ001727543757327 € 13.48 1133034
-
 #Naegel MAISON NAEGEL 9 RUE DES ORFEVRES 67000 STRASBOURG France Siret 71850045700012 APE 1071DTVA FR72718500457 Tel 03 68 32 62 86 5456 90 EUR Ticket (VTE) 1-824641.1 12210 Edité le 24/09/2024 à 15:19:15 1 client SARO (9) Ote Designation PU.€ Net.€ 1 LUNETTE AU FLAN 1.90 1.90 1 THE BROT 1.20 1.20 B 2 PP A L'HUILE D'OLIVE 1.20 2.40  1 PAIN CIABATTA 3.70 3.70 A 1 SACHET 0.10 0.10 C mb Catégories à identi Total 9.30€ Hors Taxes Reçu ESPECES (1x9.30€) 5/6 9.00€ 9.30€ HT 0.08€ TTC 0.10€ TVA TVA (C) & 20.00% 0.02€ TVA (8) a 5.50%  5.21€ 5.50€ 0.296 TVA (A) & 0.00%3.70€3.70€ 0.00€
