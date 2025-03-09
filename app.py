@@ -25,6 +25,7 @@ openai.api_key=api_key
 
 
 
+
 categories = ("Alimentation", "Hygiène et beauté", "Entretien de la maison", "Animaux", "Électronique et multimédia", "Vêtements et accessoires", "Maison et décoration", "Loisirs et papeterie", "Santé", "Emballages", "Transports")
 
 
@@ -103,7 +104,7 @@ def home():
 
 @app.route("/account")
 def account():
-    return render_template('account.html', current_username={current_user.username})
+    return render_template('account.html')
 
 @app.route("/contact")
 def contact():
