@@ -91,7 +91,7 @@ def chat_with_gpt(categories, ticket_brut):
     try:
         response = openai.ChatCompletion.create(
         model="gpt-4",  #aussi "gpt-3.5-turbo"
-        messages=[{"role": "user", "content": f"(n'ecris pas d'autres reponse que json format partir de un ticket de caisse avec les infos importantes (inclue 'Nom du magasin'(premiere lettre en majuscule et apres tout en minuscule), 'Date' date sans l'heure sous format JJ/MM/AAAA UNIQUEMENT,   'Total' en float sans caractere speciaux, 'Type de paiement' E pour especes ou CB pour carte bancaire, 'Articles', dans 'Articles' fais un sous dictionnaire avec 'Nom_article', 'Catégorie' (utilise les categories uniquement ! {categories} et informe toi sur les produits vendus dans le magasin), 'Prix', ne fais fait 'quantité' mais ajoute l'article comme tel et fais tres attention aux remises s'il y en a) voici le ticket de caisse {ticket_brut}  et fais tres attention au nombre de chaque article et s'il y a des articles plusieurs fois dans le ticket, tu dois les mettre dans le disctionnaire séparément"}]
+        messages=[{"role": "user", "content": f"(n'ecris pas d'autres reponse que json format partir de un ticket de caisse avec les infos importantes (inclue 'Nom du magasin'(premiere lettre en majuscule et apres tout en minuscule), 'Date' date sans l'heure sous format JJ/MM/AAAA UNIQUEMENT,   'Total' en float sans caractere speciaux, 'Type de paiement' E pour especes ou CB pour carte bancaire, 'Articles', dans 'Articles' fais un sous dictionnaire avec 'Nom_article' (resume le nom sur le ticket pour qu'il soit comprehensible par une personne), 'Catégorie' (utilise les categories uniquement ! {categories} et informe toi sur les produits vendus dans le magasin), 'Prix', ne fais fait 'quantité' mais ajoute l'article comme tel et fais tres attention aux remises s'il y en a) voici le ticket de caisse {ticket_brut}  et fais tres attention au nombre de chaque article et s'il y a des articles plusieurs fois dans le ticket, tu dois les mettre dans le disctionnaire séparément"}]
             )
         chat_response = response['choices'][0]['message']['content']
         return chat_response
@@ -290,7 +290,7 @@ def dashboard():
         if not current_user.receipts:
             print("No receipts found")
             print()
-            return render_template('dashboard.html', chat_with_gpt_html=None,  chart_url=None,  bar_d_url=None, bar_m_url=None, tab_url=None, chart_pay_url=None, sum=sum, nom_magasins=None)
+            return render_template('dashboard.html', current_username=current_user.username.capitalize(), chat_with_gpt_html=None,  chart_url=None,  bar_d_url=None, bar_m_url=None, tab_url=None, chart_pay_url=None, sum=sum, nom_magasins=None)
         else:
                 #traitement des donnees
                 categories_amount={"Alimentation":0, "Hygiène et beauté":0, "Entretien de la maison":0, "Animaux":0, "Électronique et multimédia":0, "Vêtements et accessoires":0, "Maison et décoration":0, "Loisirs et papeterie":0, "Santé":0, "Emballages":0, "Transports":0}
