@@ -1,15 +1,15 @@
 // MAIN TITLE ANIMATION ---------------------------------------------------------------------------------
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Main title
     const mainTitle1 = document.getElementById('main_title');
     const titleText1 = "Prenez le contrôle de vos dépenses dès maintenant";
     mainTitle1.innerHTML = `<span>${titleText1}</span>`;
   
-    // h1 animation
     const mainTitle2 = document.getElementById('h1');
     const titleText2 = "Nos fonctionnalités";
     mainTitle2.innerHTML = `<span>${titleText2}</span>`;
   });
+
   // DRAG AND DROP BOX ------------------------------------------------------------------------------------
   
   document.addEventListener("DOMContentLoaded", function () {
