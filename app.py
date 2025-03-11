@@ -139,6 +139,7 @@ def register():
 
 @app.route("/login", methods=['GET', 'POST'])
 def login():
+    message_login = None
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.username.data).first()
@@ -151,13 +152,11 @@ def login():
                 login_user(user)
                 return redirect(url_for('dashboard'))
             else:
-                print("Password is incorrect") 
-                print()
+                message_login="Password is incorrect"
         else:
-            print("User not found")
-            print()
+            message_login= "User not found"
 
-    return render_template('login.html', form=form)
+    return render_template('login.html', form=form, message_login=message_login)
 
 
 
@@ -180,9 +179,9 @@ def dashboard():
         if 'receipt_file' in request.files:
             file = request.files['receipt_file']
 
-            if file.filename == '':
-                upload_message = "No file selected!"
-            elif file:
+            #if file.filename == '':
+                #upload_message = "No file selected!"
+            if file:
                 file_path = os.path.join(UPLOAD_FOLDER, file.filename)
                 filename = secure_filename(file.filename) 
                 file.save(file_path)
@@ -194,11 +193,6 @@ def dashboard():
                 print()
 
                 session['ticket_brut'] = ticket_brut
-
-            else:
-                upload_message = "Something went wrong during file upload."
-        else:
-            upload_message = "No file part in request!"
 
 
     new_receipt=None
@@ -303,7 +297,7 @@ def dashboard():
 
                 for receipt in current_user.receipts:
                     for article in receipt.articles: 
-                        derniers_articles.append(article.get('Nom_article'))
+                        derniers_articles.append((article.get('Nom_article'),article.get('Prix')))
                         categorie = article.get("Catégorie")
                         prix = float(article.get("Prix", 0)) 
                         if categorie in categories_amount:
@@ -369,8 +363,8 @@ def dashboard():
                 #BAR CHART DAYS
                 fig, ax = plt.subplots(figsize=(8, 5), facecolor='none')
                 plt.bar([key for key, value in dates.items() if value > 0], [value for value in dates.values() if value > 0], color='#6a7998')
-                plt.xlabel('Dates', fontsize=12, color='white')
-                plt.ylabel('Money spent (€)', fontsize=12, color='white')
+                plt.xlabel('Jours', fontsize=12, color='white')
+                plt.ylabel('Montant dépensé (€)', fontsize=12, color='white')
                 plt.grid(axis='y', linestyle='--', alpha=0.5, color='gray')
                 ax.spines['top'].set_visible(False)
                 ax.spines['right'].set_visible(False)
@@ -386,8 +380,8 @@ def dashboard():
                 #BAR CHART MONTHS
                 fig, ax = plt.subplots(figsize=(8, 5), facecolor='none')
                 plt.bar([key for key, value in months.items() if value > 0], [value for value in months.values() if value > 0], color='#b7ccd1')
-                plt.xlabel('Months', fontsize=12, color='white')
-                plt.ylabel('Money spent (€)', fontsize=12, color='white')
+                plt.xlabel('Mois', fontsize=12, color='white')
+                plt.ylabel('Montant dépensé (€)', fontsize=12, color='white')
                 plt.grid(axis='y', linestyle='--', alpha=0.5, color='gray')
                 ax.spines['top'].set_visible(False)
                 ax.spines['right'].set_visible(False)

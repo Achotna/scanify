@@ -11,20 +11,25 @@ xsomme
 fonct : titre finir
  degager anim
  réduire espace en haut s'inscrire se connecter pour voir bouton
+<<<<<<< HEAD
  nom de la personne à côté 
  chargement animation JSc
+=======
+ centrer nom utlisateur à cote de l'image user en haut
+ 
+ mini message qui dit que le nom d'utlisateur et le mot de passe doit au moins faire 4 characters chacun
+>>>>>>> 8ec2290e9c186540d043acfd12c437437f20e096
 ---------------------------
 uo
 
 ANTONINA
-ajouter les prix artciles 
-message erreur 
+
 
 
 TOUT LE MONDE
 Choix currency + langue du ticket
 Ajouter un bouton pour changer la langue de la page
 Possiblité de rentrer les tickets manuellement
-
-Ajouteranalyse selon les magasins
+Ajouter analyse selon les magasins
+reduction
 
