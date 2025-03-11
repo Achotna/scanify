@@ -180,26 +180,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     "retina_detect": true
   });
-  
-  //DROPDOWN TRIANGLE MENU TOPBAR ----------------------------------------------------------------------------
-  
-  document.addEventListener('DOMContentLoaded', () => {
-    const profileDropdown = document.querySelector('.profile-dropdown');
-    const dropdownArrow = document.querySelector('.dropdown-arrow');
-  
-    
-    dropdownArrow.addEventListener('click', (event) => {
-      event.stopPropagation(); 
-      profileDropdown.classList.toggle('active');
-    });
-    
-    document.addEventListener('click', (event) => {
-      if (!profileDropdown.contains(event.target)) {
-        profileDropdown.classList.remove('active');
-      }
-    });
-  });
-  
+   
 // ---------------------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -225,7 +206,7 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-// Animated bubble notification ------------------------------------------------------------------------------//
+// Animated bubble notif ------------------------------------------------------------------------------//
 
 function updateSum(newSum) {
   const sumElement = document.getElementById('sum-value');
