@@ -89,7 +89,6 @@ h1 {
   animation: slideInFromLeft 1s ease-in-out forwards;
 }
 
-
 .main_title span {
   background: linear-gradient(to right, #e7e7e7, #b7ccd1, #879a99);
   background-clip: text;
@@ -115,6 +114,7 @@ h1 {
 }
 
 /*------------------------------------------------------------------------------------------------*/
+
 .a_main {
   color: #e7e7e7;
   font-family: 'Inter', sans-serif;
@@ -139,7 +139,6 @@ a:hover {
   color: #434343;
   text-decoration: none;
 }
-
 
 /* Home page styling - get started button -------------------------------------------------------------*/
 
@@ -224,7 +223,7 @@ nav a:hover {
   color: rgba(255, 255, 255, 0.95);
 }
 
-.sidebar{
+.sidebar {
   position:fixed;
   top:0;
   right:0;
@@ -247,6 +246,10 @@ nav a:hover {
   width:95%;
 }
 
+.hamburger{
+  display:none;
+}
+
 .sidebar a:hover{
   width:100%;
   color: white;
@@ -259,6 +262,9 @@ nav a:hover {
   .nav li.hamburger {
     display: block; 
   }
+  .hamburger{
+    display:block;
+  }
 }
 
 @media(max-width: 400px){
@@ -266,82 +272,6 @@ nav a:hover {
     width:100%; 
   }
 }
-
-/* Profile Dropdown Container----------------------------------------------------------------------- */
-
-.profile-dropdown {
-  position: relative;
-  display: inline-block;
-  margin-left: auto;
-}
-
-.profile-toggle {
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem; 
-}
-
-.dropdown-arrow {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  pointer-events: auto;
-  display: inline-block;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%; 
-  right: 0; 
-  background-color: rgb(31, 31, 31); 
-  border: 1px solid #0a0a0a;
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: none; 
-  min-width: 150px;
-}
-
-.dropdown-menu li {
-  padding: 0.5rem 1rem;
-}
-
-.dropdown-menu li a {
-  text-decoration: none;
-  color: #cbcbcb;
-  display: block;
-}
-
-.dropdown-menu li:hover {
-  background-color: #444; 
-}
-
-.profile-dropdown.active .dropdown-menu {
-  display: block;
-}
-
-.profile-dropdown.active .dropdown-arrow {
-  transform: rotate(180deg);
-}
-
-.dropdown-menu li:hover {
-  background-color: #f1f1f1;
-}
-
-.profile-dropdown.active .dropdown-menu {
-  display: block;
-}
-
-.profile-dropdown.active .dropdown-arrow {
-  transform: rotate(180deg);
-}
-
 
 /* Error Message -------------------------------------------------------------------------------------*/
 
