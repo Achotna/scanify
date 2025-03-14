@@ -65,10 +65,11 @@ document.addEventListener('DOMContentLoaded', () => {
   AOS.init();
   
   // PARTICLES ------------------------------------------------------------------------------------------------
-  
-  particlesJS.load('particles-js', "{{ url_for('static', filename='particlesjs-config.json') }}", function() {
+
+particlesJS.load('particles-js', 'static/particlesjs-config.json', function() {
     console.log('Particles are loaded');
-  });
+});
+
   
   particlesJS("particles-js", {
     "particles": {
@@ -228,6 +229,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+
+console.log(typeof Chart);
 
 // Animated bubble notif ------------------------------------------------------------------------------//
 
