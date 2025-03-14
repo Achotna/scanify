@@ -132,8 +132,8 @@ def register():
         db.session.commit()
         return redirect(url_for('login'))
     users = User.query.all()
-    for user in users:
-        print(f"ID: {user.id}, Username: {user.username}, Username: {user.password}")
+    #for user in users:
+        #print(f"ID: {user.id}, Username: {user.username}, Username: {user.password}")
     print()
     return render_template('register.html', form=form)
 
@@ -161,7 +161,7 @@ def login():
 
 
 
-#Partie l aplus importante
+#Partie la plus importante
 @app.route("/dashboard", methods=['GET','POST'])
 @login_required
 def dashboard():
@@ -214,7 +214,9 @@ def dashboard():
             #ticket_brut=session.get('ticket_brut')
             new_receipt = chat_with_gpt(categories, ticket_brut)
             #TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
-            print("Chat-GPT answered : ", ticket_brut)
+            print("texte extrait par l'ocr : ", ticket_brut)
+            print()
+            print("Chat-GPT answered : ", new_receipt)
             print()
             #print("chat                 ", new_receipt)
 
@@ -432,7 +434,7 @@ def dashboard():
                 derniers_articles.reverse()
                 nom_magasins.reverse()
 
-    return render_template('dashboard.html', derniers_articles=derniers_articles, dernier_somme_ajoute=dernier_somme_ajoute, current_username=current_user.username.capitalize(), upload_message=upload_message, chat_with_gpt_html=new_receipt,  chart_url=url_for('static', filename=('chart_categories.png')),  bar_d_url=url_for('static', filename=('bar_days.png')), bar_m_url=url_for('static', filename=('bar_months.png')), tab_url=url_for('static', filename=('tab_produits_par_categories.png')), chart_pay_url=url_for('static', filename=('chart_pay.png')), sum=sum, nom_magasins=nom_magasins)
+    return render_template('dashboard.html', derniers_articles=derniers_articles, dernier_somme_ajoute=dernier_somme_ajoute, current_username=current_user.username.capitalize(), upload_message=upload_message, chat_with_gpt_html=new_receipt,  chart_url=url_for('static', filename=('chart_categories.png')),  bar_d_url=url_for('static', filename=('bar_days.png')), bar_m_url=url_for('static', filename=('bar_months.png')), tab_url=url_for('static', filename=('tab_produits_par_categories.png')), chart_pay_url=url_for('static', filename=('chart_pay.png')), sum=round(sum, 2), nom_magasins=nom_magasins)
 
 
 
