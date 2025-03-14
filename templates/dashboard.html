@@ -22,7 +22,6 @@
 
 
 <body>
-<!--https://www.bing.com/videos/riverview/relatedvideo?&q=build+responsive+navbar&&mid=C93F400752D7A7E05BF3C93F400752D7A7E05BF3&mmscn=mtsc&aps=0&FORM=VRDGAR-->
 <nav>
   <ul class="sidebar">
     <li onclick=hideSidebar()><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -50,16 +49,15 @@
     <li class="hamburger" onclick=showSidebar()><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
       <path d="M3 12h18M3 6h18M3 18h18"></path></svg></li>
     {% if current_username %}
-      <li style="justify-content: flex-end;">{{current_username}}</li>
+    <div class="user-info">
+      <span>{{ current_username }}</span>
+      <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
+    </div>
     {% endif %}
-    </ul>
-  {% if current_username %}
-  <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
-  {% endif %}
 </nav>
 
 <main>
-    <h1> Bienvenue sur votre tableau de bord {{current_username}}</h1>
+    <h1> Bienvenue sur votre tableau de bord, {{current_username}}</h1>
     <br>
     <h2> ─── Veuillez entrer votre reçu. Appuyez sur 'téléverser' puis sur 'analyser' pour commencer l'analyse. ─── <h2>
     <form method="POST" enctype="multipart/form-data">
@@ -159,7 +157,6 @@
     </div>
   </div>
 
-  <div class ="push"></div>
 </main> 
 
 <footer>

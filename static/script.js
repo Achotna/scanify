@@ -182,7 +182,6 @@ document.addEventListener('DOMContentLoaded', () => {
   });
    
 // ---------------------------------------------------------------------------
-
 document.addEventListener("DOMContentLoaded", function () {
   const ctx = document.getElementById("jsPieChart").getContext("2d");
 
@@ -191,17 +190,28 @@ document.addEventListener("DOMContentLoaded", function () {
     data: {
       labels: ["Alimentation", "Transport", "Entretien", "Multimédia"],
       datasets: [{
-        data: [300, 70, 80, 250], 
+        data: [300, 70, 80, 250],
         backgroundColor: ["#6a7998", "#3f4d58", "#B1B3B5", "#919191"]
       }]
     },
     options: {
       animation: {
         animateRotate: true, 
-        duration: 2000 
+        duration: 2000
       },
       responsive: true,
-      maintainAspectRatio: false
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          labels: {
+            color: 'white', 
+            font: {
+              size: 14, 
+              weight: 'bold' 
+            }
+          }
+        }
+      }
     }
   });
 });
@@ -228,10 +238,10 @@ function updateSum(newSum) {
   setTimeout(() => {
       notificationBubble.style.opacity = 0;
       notificationBubble.style.visibility = 'hidden';
-  }, 2500);
+  }, 2000);
 }
 
-updateSum(200);
+updateSum(3000);
 
 
 // --------------------------------------------------------------------

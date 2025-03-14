@@ -20,45 +20,43 @@
 </head>
 
 <body>
-  <main>
-    
-  <header class="top-sidebar">
-    <nav>
-      <ul class="sidebar">
-        <li onclick=hideSidebar()><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 6L6 18M6 6l12 12"></path></svg>
-        </li>
-        <li style="font-family:Galada,serif; color: white;"> Scanify</li>
-        <li><a href="{{ url_for('home') }}"> Accueil </a></li>
-        <li><a href="{{ url_for('about') }}"> A propos</a></li>
-        <li><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
-        {% if current_username %}
-          <li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
-        {% endif %}
-      </ul>
-    
-    
-      <img src="../static/Design/logo.jpg" alt="Scanify logo" class="logo_jpg">
-      <ul>
-        <li class="hideOnMobile" style="font-family:Galada,serif; margin-left: 1.5rem;color: white;"> Scanify</li>
-        <li class="hideOnMobile"><a href="{{ url_for('home') }}"> Accueil </a></li>
-        <li class="hideOnMobile"><a href="{{ url_for('about') }}"> A propos</a></li>
-        <li class="hideOnMobile"><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
-        {% if current_username %}
-          <li class="hideOnMobile"><a href="{{ url_for('logout') }}">Déconnexion</a></li>
-        {% endif %}
-        <li class="hamburger" onclick=showSidebar()><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M3 12h18M3 6h18M3 18h18"></path></svg>
-        </li>
-        {% if current_username %}
-        <li style="margin-right:1rem;">{{current_username}}</li>
-        {% endif %}
-    </ul>
-  {% if current_username %}
-  <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
-  {% endif %}
-    </nav>
-  </header>
+<nav>
+  <ul class="sidebar">
+    <li onclick=hideSidebar()><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 6L6 18M6 6l12 12"></path></svg>
+    </li>
+    <li style="font-family:Galada,serif; color: white;"> Scanify</li>
+    <li><a href="{{ url_for('home') }}"> Accueil </a></li>
+    <li><a href="{{ url_for('about') }}"> A propos</a></li>
+    <li><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
+    {% if current_username %}
+      <li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
+    {% endif %}
+  </ul>
+
+
+  <img src="../static/Design/logo.jpg" alt="Scanify logo" class="logo_jpg">
+  <ul>
+    <li class="hideOnMobile" style="font-family:Galada,serif; margin-left: 1.5rem;color: white;"> Scanify</li>
+    <li class="hideOnMobile"><a href="{{ url_for('home') }}"> Accueil </a></li>
+    <li class="hideOnMobile"><a href="{{ url_for('about') }}"> A propos</a></li>
+    <li class="hideOnMobile"><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
+    {% if current_username %}
+      <li class="hideOnMobile"><a href="{{ url_for('logout') }}">Déconnexion</a></li>
+    {% endif %}
+    <li class="hamburger" onclick=showSidebar()><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 12h18M3 6h18M3 18h18"></path></svg></li>
+  </ul>
+  
+    {% if current_username %}
+    <div class="user-info">
+      <span>{{ current_username }}</span>
+      <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
+    </div>
+    {% endif %}
+</nav>
+
+<main>
 
   <h1 id="register_title"> S'inscrire </h1> 
   <br>

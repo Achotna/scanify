@@ -48,15 +48,15 @@
       <li class="hamburger" onclick=showSidebar()><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M3 12h18M3 6h18M3 18h18"></path></svg>
       </li>
-      {% if current_username %}
-        <li style="margin-right:1rem;">{{current_username}}</li>
-      {% endif %}
     </ul>
+
     {% if current_username %}
-    <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
-    {% endif %} 
+      <div class="user-info">
+      <span>{{ current_username }}</span>
+      <img src="../static/Design/user_image.jpg" alt="User image" class="topbar_user_jpg">
+      </div>
+    {% endif %}
   </nav>
-  </header>
 
   <h1 id="about_title"> A propos </h1>
   <div class="about_container">

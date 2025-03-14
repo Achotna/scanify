@@ -188,6 +188,18 @@ nav {
   border-radius: 50%;
 }
 
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-left: auto; 
+}
+
+.user-info span {
+  color: rgb(241, 241, 241);
+  font-size: 1rem;
+}
+
 .topbar_user_jpg {
   width: auto;
   height: 30px;
@@ -532,13 +544,14 @@ input:focus {
   bottom: 20px; 
   left: 50%;
   transform: translateX(-50%);
-  padding: 10px 20px;
-  background-color: rgba(59, 64, 92, 0.8);
+  padding: 8px 20px;
+  background-color: rgba(59, 64, 92);
   border-radius: 30px;
   color: white;
   font-size: 1.2rem;
+  font-weight: bold;
   opacity: 0; 
-  animation: pop-up 1s ease-out forwards, float-up 2s ease-in-out forwards;
+  animation: pop-up 3s ease-out forwards, float-up 3s ease-in-out forwards;
   pointer-events: none; 
 }
 
