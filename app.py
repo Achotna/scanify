@@ -11,11 +11,9 @@ from datetime import datetime
 import matplotlib
 import matplotlib.pyplot as plt
 import os
-from models.ocr_me import ImageReader, Language
+from models.ocr import ImageReader, Language
 from werkzeug.utils import secure_filename
 from dotenv import load_dotenv
-
-
 
 
 
@@ -91,7 +89,7 @@ def chat_with_gpt(categories, ticket_brut):
     try:
         response = openai.ChatCompletion.create(
         model="gpt-4",  #aussi "gpt-3.5-turbo"
-        messages=[{"role": "user", "content": f"(n'ecris pas d'autres reponse que json format partir de un ticket de caisse avec les infos importantes (inclue 'Nom du magasin'(premiere lettre en majuscule et apres tout en minuscule), 'Date' date sans l'heure sous format JJ/MM/AAAA UNIQUEMENT,   'Total' en float sans caractere speciaux, 'Type de paiement' E pour especes ou CB pour carte bancaire, 'Articles', dans 'Articles' fais un sous dictionnaire avec 'Nom_article' (resume le nom sur le ticket pour qu'il soit comprehensible par une personne), 'Catégorie' (utilise les categories uniquement ! {categories} et informe toi sur les produits vendus dans le magasin), 'Prix', ne fais fait 'quantité' mais ajoute l'article comme tel et fais tres attention aux remises s'il y en a) voici le ticket de caisse {ticket_brut}  et fais tres attention au nombre de chaque article et s'il y a des articles plusieurs fois dans le ticket, tu dois les mettre dans le disctionnaire séparément"}]
+        messages=[{"role": "user", "content": f"(n'ecris pas d'autres reponse que json format partir de un ticket de caisse avec les infos importantes (inclue 'Nom du magasin'(premiere lettre en majuscule et apres tout en minuscule), 'Date' date sans l'heure sous format JJ/MM/AAAA UNIQUEMENT,   'Total' en float sans caractere speciaux choit bien le bon total (tu peux vérifier en additionnant tous les produits), 'Type de paiement' E pour especes ou CB pour carte bancaire ou CH pour chèque, 'Articles', dans 'Articles' fais un sous dictionnaire avec 'Nom_article' (resume le nom sur le ticket pour qu'il soit comprehensible par une personne), 'Catégorie' (utilise les categories uniquement ! {categories} et informe toi sur les produits vendus dans le magasin), 'Prix', ne fais fait 'quantité' mais ajoute l'article comme tel et fais tres attention aux remises s'il y en a) voici le ticket de caisse {ticket_brut}  et fais tres attention au nombre de chaque article et s'il y a des articles plusieurs fois dans le ticket, tu dois les mettre dans le disctionnaire séparément"}]
             )
         chat_response = response['choices'][0]['message']['content']
         return chat_response
@@ -295,6 +293,7 @@ def dashboard():
                 months={}
                 especes=0
                 cb=0
+                ch=0
                 derniers_articles=[]
 
                 for receipt in current_user.receipts:
@@ -323,6 +322,8 @@ def dashboard():
 
                     if receipt.payment_method == 'E':
                          especes=especes+1
+                    elif receipt.payment_method == 'CH':
+                         ch=ch+1
                     elif receipt.payment_method == 'CB':
                          cb=cb+1
                          
@@ -416,7 +417,7 @@ def dashboard():
                 #PIE PAY
                 fig, ax = plt.subplots(figsize=(8, 8), facecolor='none')
                 wedges, texts, autotexts = ax.pie(
-                    [especes, cb], labels=["Espèces", "CB"], autopct='%1.1f%%', startangle=140, colors=colors, pctdistance=0.85,
+                    [especes, cb, ch], labels=["Espèces", "CB", "Chèque"], autopct='%1.1f%%', startangle=140, colors=colors, pctdistance=0.85,
                     wedgeprops={'edgecolor': '#fff', 'linewidth': 2, 'alpha': 0.9})
                 
                 for text in texts:
@@ -433,6 +434,10 @@ def dashboard():
 
                 derniers_articles.reverse()
                 nom_magasins.reverse()
+
+                print()
+                print(round(sum, 2))
+                print(sum)
 
     return render_template('dashboard.html', derniers_articles=derniers_articles, dernier_somme_ajoute=dernier_somme_ajoute, current_username=current_user.username.capitalize(), upload_message=upload_message, chat_with_gpt_html=new_receipt,  chart_url=url_for('static', filename=('chart_categories.png')),  bar_d_url=url_for('static', filename=('bar_days.png')), bar_m_url=url_for('static', filename=('bar_months.png')), tab_url=url_for('static', filename=('tab_produits_par_categories.png')), chart_pay_url=url_for('static', filename=('chart_pay.png')), sum=round(sum, 2), nom_magasins=nom_magasins)
 
