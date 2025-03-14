@@ -202,12 +202,25 @@ document.addEventListener("DOMContentLoaded", function () {
       responsive: true,
       maintainAspectRatio: false,
       plugins: {
+        title: {
+          display: true, 
+          text: 'Répartition des dépenses', 
+          font: {
+            size: 20,
+            weight: 'bold',
+          },
+          color: 'white', 
+          padding: {
+            top: 5, 
+            bottom: 10 
+          },
+          align: 'center', 
+        },
         legend: {
           labels: {
             color: 'white', 
             font: {
               size: 14, 
-              weight: 'bold' 
             }
           }
         }
