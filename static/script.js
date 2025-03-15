@@ -234,7 +234,9 @@ console.log(typeof Chart);
 
 // Animated bubble notif ------------------------------------------------------------------------------//
 
-function updateSum(newSum) {
+document.getElementById('upload-button').addEventListener('click', function (event) {
+  event.preventDefault(); 
+
   const sumElement = document.getElementById('sum-value');
   const notificationBubble = document.getElementById('notification-bubble');
   const addedValue = document.getElementById('added-value');
@@ -255,10 +257,7 @@ function updateSum(newSum) {
       notificationBubble.style.opacity = 0;
       notificationBubble.style.visibility = 'hidden';
   }, 2000);
-}
-
-updateSum(3000);
-
+});
 
 // --------------------------------------------------------------------
 

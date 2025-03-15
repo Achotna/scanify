@@ -29,16 +29,12 @@ h2 {
   padding: 0; 
 }
 
-main {
-  flex-grow:1;
-}
-
 .container {
   grid-template-columns: 1fr 1fr 1fr;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15vw, 1fr));
   gap: 1rem;
-  width: 90%;
+  width: 80%;
   max-width: 1200px;
 }
 
@@ -298,21 +294,37 @@ nav a:hover {
 
 /* Login and register page --------------------------------------------------------------------------------------------*/
 
-.login-container {
-  max-width: 90vh;
-  padding: 1.5rem;
-  border-radius: 5px;
-  background-color: #fff;
-  display: grid;
-  flex-direction: column;
-  gap: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+#login_title, #register_title {
+  margin: 0 auto;
+  text-align: center;
+  font-size:3rem;
+}
+
+.container {
+  flex: 2;
+  display: flex;
   align-items: center;
   justify-content: center;
-} 
+  padding: 2rem 0;
+}
 
 .login-container {
-  margin-top: 1rem;
+  border-radius: 10px;
+  background-color: #fff;
+  width: 400px;
+  max-width: 90vw;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.input-group {
+  width: 100%;
+  margin-bottom: 20px; 
 }
 
 .a_container {
@@ -321,37 +333,30 @@ nav a:hover {
   padding: 0.5rem;
 }
 
-.from + .a_container {
-  margin-top: 20px;
-}
-
-.input-group {
-  margin-bottom: 15px;
-}
-
 label {
   display: block;
-  margin-bottom: 5px;
   font-weight: bold;
 }
 
 .form-input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #B1B3B5;
   border-radius: 4px;
+  box-sizing: border-box;
 }
 
 .btn {
-  padding: 0.8rem;
+  padding: 12px 20px; 
   background-color: #969eb5;
   color: white;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
-  justify-content: center ;
-  margin : 0 auto;
-  display: block; 
+  display: block;
+  width: 100%; 
+  text-align: center;
+  margin-top: 10px;
 }
 
 .btn:hover {
@@ -365,6 +370,7 @@ input:focus {
 }
 
 .user_image_jpg {
+  margin-top: 1rem; 
   width: 70px;
   height: 70px;
   border-radius: 50%;
@@ -596,7 +602,6 @@ input:focus {
   margin: 0 auto;
 }
 
-
 .chart-item {
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -673,7 +678,6 @@ input:focus {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   transition: all 0.3s ease-in-out;
 }
-
 
 .scroll-box ul {
   list-style: none;

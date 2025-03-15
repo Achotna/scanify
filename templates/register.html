@@ -56,33 +56,31 @@
     {% endif %}
 </nav>
 
-<main>
 
-  <h1 id="register_title"> S'inscrire </h1> 
-  <br>
+<h1 id="login_title">S'inscrire</h1>
 
-  <div class="login-container">
-    <div class="logo">
-      <img src="../static/Design/user_image.jpg" alt="User Image" class="user_image_jpg">
+  <div class="container">
+    <div class="login-container">
+
+      <div class="logo">
+          <img src="../static/Design/user_image.jpg" alt="User Image" class="user_image_jpg">
+      </div>
+
+      <form method="POST" action="">
+        {{ form.hidden_tag()}}
+        <div class="input-group">
+          <label for="username">Nom d'utilisateur</label>
+          {{form.username(class="form-input")}}
+        </div>
+        <div class="input-group">
+          <label for="password">Mot de passe</label>
+          {{form.password(class="form-input")}}
+        </div>
+        <button type="submit" class="btn">{{ form.submit.label.text }}</button>
+      </form>
+        <a href="{{ url_for('login') }}" class="a_container">Déjà un compte ? Connectez-vous !</a>
+      </div>
     </div>
-    <form method="POST" action="">
-      {{ form.hidden_tag()}}
-      <div class="input-group">
-        <label for="username">Nom d'utilisateur</label>
-        {{form.username(class="form-input")}}
-      </div>
-      <div class="input-group">
-        <label for="password">Mot de passe</label>
-        {{form.password(class="form-input")}}
-      </div>
-      <button type="submit" class="btn">{{ form.submit.label.text }}</button>
-    </form>
-
-  <a href="{{url_for('login')}}" class="a_container"> Déjà un compte ? Connectez-vous !</a>
-
-<script src="{{ url_for('static', filename='script.js') }}"></script>
-
-</main>
 
 <footer>
   <div class="footer-container">
