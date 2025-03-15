@@ -306,6 +306,8 @@ def dashboard():
                             categories_amount[categorie] += prix
                         else:
                             categories_amount[categorie] = prix
+                    print("Categories amount: ", categories_amount)
+                    print()
                     
                     if receipt.shop_name not in nom_magasins:
                         nom_magasins.append(receipt.shop_name)
