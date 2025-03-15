@@ -84,7 +84,7 @@ class LoginForm(FlaskForm):
 
 
 #API
-categories = ("Alimentation", "Hygiène et beauté", "Entretien de la maison", "Animaux", "Électronique et multimédia", "Vêtements et accessoires", "Maison et décoration", "Loisirs et papeterie", "Santé", "Emballages", "Transports")
+categories = ("Alimentation", "Hygiène et beauté", "Entretien de la maison", "Animaux", "Électronique et multimédia", "Vêtements et accessoires", "Maison et décoration", "Loisirs et papeterie", "Santé", "Emballages", "Transports", "Réduction")
 def chat_with_gpt(categories, ticket_brut):
     try:
         response = openai.ChatCompletion.create(
@@ -274,7 +274,7 @@ def dashboard():
                 print()
 
     if current_user:
-        categories_amount={"Alimentation":0, "Hygiène et beauté":0, "Entretien de la maison":0, "Animaux":0, "Électronique et multimédia":0, "Vêtements et accessoires":0, "Maison et décoration":0, "Loisirs et papeterie":0, "Santé":0, "Emballages":0, "Transports":0}
+        categories_amount={"Alimentation":0, "Hygiène et beauté":0, "Entretien de la maison":0, "Animaux":0, "Électronique et multimédia":0, "Vêtements et accessoires":0, "Maison et décoration":0, "Loisirs et papeterie":0, "Santé":0, "Emballages":0, "Transports":0, "Réduction":0}
         nom_magasins=[]
         dates={}
         months={}
@@ -287,7 +287,7 @@ def dashboard():
             return render_template('dashboard.html', current_username=current_user.username.capitalize(), chat_with_gpt_html=None,  chart_url=None,  bar_d_url=None, bar_m_url=None, tab_url=None, chart_pay_url=None, sum=sum, nom_magasins=None)
         else:
                 #traitement des donnees
-                categories_amount={"Alimentation":0, "Hygiène et beauté":0, "Entretien de la maison":0, "Animaux":0, "Électronique et multimédia":0, "Vêtements et accessoires":0, "Maison et décoration":0, "Loisirs et papeterie":0, "Santé":0, "Emballages":0, "Transports":0}
+                categories_amount={"Alimentation":0, "Hygiène et beauté":0, "Entretien de la maison":0, "Animaux":0, "Électronique et multimédia":0, "Vêtements et accessoires":0, "Maison et décoration":0, "Loisirs et papeterie":0, "Santé":0, "Emballages":0, "Transports":0, "Réduction":0}
                 nom_magasins=[]
                 dates={}
                 months={}
@@ -301,11 +301,13 @@ def dashboard():
                         derniers_articles.append((article.get('Nom_article'),article.get('Prix')))
 
                         categorie = article.get("Catégorie")
-                        prix = float(article.get("Prix", 0)) 
+                        prix = article.get("Prix", 0)
                         if categorie in categories_amount:
                             categories_amount[categorie] += prix
                         else:
                             categories_amount[categorie] = prix
+                    print("Categories amount: ", categories_amount)
+                    print()
                     
                     if receipt.shop_name not in nom_magasins:
                         nom_magasins.append(receipt.shop_name)
@@ -337,7 +339,7 @@ def dashboard():
                 colors = ['#b7ccd1', '#6a7998', '#dddee3', '#879a99', '#3f4d58']
 
                 #TABLEAU
-                tableau = [["Catégorie", "Montant (€)"]] + [[key, round(value, 2)] for key, value in categories_amount.items()]
+                tableau = [["Catégorie", "Montant (€)"]] + [[key, round(value, 4)] for key, value in categories_amount.items()]
                 fig, ax = plt.subplots(figsize=(8, 4), facecolor='none')
                 ax.axis('tight')
                 ax.axis('off')
