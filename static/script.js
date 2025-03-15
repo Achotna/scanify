@@ -243,22 +243,27 @@ document.getElementById('upload-button').addEventListener('click', function (eve
 
   const previousSum = parseFloat(sumElement.textContent);
   const addedAmount = parseFloat(addedValue.textContent);
-  const newTotal = previousSum + addedAmount;
 
-  notificationBubble.textContent = `+${addedAmount}`;
-  notificationBubble.style.visibility = 'visible';
-  notificationBubble.style.opacity = 1;
+  if (addedAmount > 0) {
+    const newTotal = previousSum + addedAmount;
 
-  setTimeout(() => {
-      sumElement.textContent = newTotal;
-  }, 2000);
+    notificationBubble.textContent = `+${addedAmount} €`;
 
-  setTimeout(() => {
+    notificationBubble.style.display = 'block'; 
+    notificationBubble.style.visibility = 'visible';
+    notificationBubble.style.opacity = 1;
+
+    setTimeout(() => {
+      sumElement.textContent = `${newTotal} €`;
+    }, 2000);
+    
+    setTimeout(() => {
       notificationBubble.style.opacity = 0;
       notificationBubble.style.visibility = 'hidden';
-  }, 2000);
+      notificationBubble.style.display = 'none';
+    }, 2000);
+  }
 });
-
 // --------------------------------------------------------------------
 
 function showSidebar(){
@@ -270,3 +275,32 @@ function hideSidebar(){
   const sidebar=document.querySelector('.sidebar')
   sidebar.style.display = 'none'
 }
+
+// ---------------------------------------------------------------------
+document.getElementById('analyzebtn').addEventListener('click', function () {
+  const button = this;
+  const form = document.getElementById('uploadForm');
+  const formData = new FormData(form);
+
+  document.getElementById('loader').style.display = 'block';
+
+  button.disabled = true;
+  document.getElementById('content').style.display = 'none';
+
+  fetch('/your-api-endpoint', {
+    method: 'POST',
+    body: formData,
+  })
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    })
+    .finally(() => {
+      document.getElementById('loader').style.display = 'none';
+      document.getElementById('content').style.display = 'block';
+      button.disabled = false;
+    });
+});

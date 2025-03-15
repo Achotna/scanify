@@ -22,6 +22,9 @@
 
 
 <body>
+
+<div class="loader" id="loader"></div>
+
 <nav>
   <ul class="sidebar">
     <li onclick=hideSidebar()><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -30,8 +33,8 @@
     <li style="font-family:Galada,serif; color: white;"> Scanify</li>
     <li><a href="{{ url_for('home') }}"> Accueil </a></li>
     <li><a href="{{ url_for('about') }}"> A propos</a></li>
-    <li><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
     {% if current_username %}
+      <li><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
       <li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
     {% endif %}
   </ul>
@@ -42,8 +45,8 @@
     <li class="hideOnMobile" style="font-family:Galada,serif; margin-left: 1.5rem;color: white;"> Scanify</li>
     <li class="hideOnMobile"><a href="{{ url_for('home') }}"> Accueil </a></li>
     <li class="hideOnMobile"><a href="{{ url_for('about') }}"> A propos</a></li>
-    <li class="hideOnMobile"><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
     {% if current_username %}
+      <li class="hideOnMobile"><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
       <li class="hideOnMobile"><a href="{{ url_for('logout') }}">Déconnexion</a></li>
     {% endif %}
     <li class="hamburger" onclick=showSidebar()><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -60,20 +63,16 @@
     <h1> Bienvenue sur votre tableau de bord, {{current_username}}</h1>
     <br>
     <h2> ─── Veuillez entrer votre reçu. Appuyez sur 'téléverser' puis sur 'analyser' pour commencer l'analyse. ─── <h2>
-    <form method="POST" enctype="multipart/form-data">
+      <form id="uploadForm" method="POST" enctype="multipart/form-data">
         <div id="drop-area" class="drop-area">
-            <label id="file-label"> Faites glisser et déposez votre fichier ici ou cliquez pour télécharger. </label>
-            <input type="file" name="receipt_file" id="file-input" hidden>
+          <label id="file-label"> Faites glisser et déposez votre fichier ici ou cliquez pour télécharger. </label>
+          <input type="file" name="receipt_file" id="file-input" hidden>
         </div>
         <div class="dash-button-container">
           <button type="submit" class="dashboard-button a-dash">Téléverser</button>
-          <form method="POST">
-            <button type="submit" name="action" value="analyse" class="dashboard-button a-dash">Analyser</button>
-          </form>
+          <button type="button" id="analyzebtn" class="dashboard-button a-dash">Analyser</button>
         </div>
       </form>
-        
-    </form>
 
   {% if upload_message %}
   <div class="alert alert-info">{{ upload_message }}</div>
@@ -83,9 +82,15 @@
 
   <div class="sum-container">
     <h2>Somme : <span id="sum-value">{{ sum }} €</span></h2>
-    <div class="notification-bubble" id="notification-bubble">
-      +{{ dernier_somme_ajoute }} €
-    </div>
+    {% if dernier_somme_ajoute and dernier_somme_ajoute > 0 %}
+      <div class="notification-bubble" id="notification-bubble">
+        +{{ dernier_somme_ajoute }} €
+      </div>
+    {% else %}
+      <div class="notification-bubble" id="notification-bubble" style="display: none;">
+        +{{ dernier_somme_ajoute }} €
+      </div>
+    {% endif %}
   </div>
   
   <div class="charts-container">

@@ -1,17 +1,69 @@
 ELISA
-fonct : titre finir
- réduire espace en haut s'inscrire se connecter pour voir bouton
- mini message qui dit que le nom d'utlisateur et le mot de passe doit au moins faire 4 characters chacun
----------------------------
+mini message qui dit que le nom d'utlisateur et le mot de passe doit au moins faire 4 characters chacun
+-> <form method="POST" action="" id="register-form">
+  {{ form.hidden_tag() }}
+  <div class="input-group">
+    <label for="username">Nom d'utilisateur</label>
+    {{ form.username(class="form-input", id="username") }}
+    <small id="username-error" class="error-message" style="color: red; display: none;">
+      Le nom d'utilisateur doit contenir au moins 4 caractères.
+    </small>
+  </div>
+  <div class="input-group">
+    <label for="password">Mot de passe</label>
+    {{ form.password(class="form-input") }}
+  </div>
+  <button type="submit" class="btn">{{ form.submit.label.text }}</button>
+</form>
+<a href="{{ url_for('login') }}" class="a_container">Déjà un compte ? Connectez-vous !</a>
+
+<script>
+document.getElementById('register-form').addEventListener('submit', function (event) {
+  const usernameInput = document.getElementById('username');
+  const usernameError = document.getElementById('username-error');
+
+  if (usernameInput.value.length < 4) {
+    usernameError.style.display = 'block'; 
+    event.preventDefault(); 
+  } else {
+    usernameError.style.display = 'none'; 
+  }
+});
+</script>
+
+Faut que t'ajoute un truc dans ta partie python si tu veux que ça marche 
+<python>
+from wtforms.validators import DataRequired, Length
+
+class RegistrationForm(FlaskForm):
+    username = StringField('Nom d\'utilisateur', validators=[
+        DataRequired(message="Le nom d'utilisateur est obligatoire."),
+        Length(min=4, message="Le nom d'utilisateur doit contenir au moins 4 caractères.")
+    ])
+    password = PasswordField('Mot de passe', validators=[
+        DataRequired(message="Le mot de passe est obligatoire.")
+    ])
+    submit = SubmitField('S\'inscrire')
+</python>
+
+
+
 
 voir si on peut affichier une page de chargement quand chargement
+-> regarde si ça marche parce que je peux pas upload
+
 emettre plus de place pour le tableau de valeur
+-> dis moi si tu le gardes au final
+
 somme doit pop que quand bouton analyser est pressé et pas quand bouton télécharger est préssé
+-> 'la somme pop quand somme ajoute>0', tu peux vérifier que ça marche?'
 
 ANTONINA
 date non specifié mois
 categories tab
 truc username qui apparait pas dans tout sauf dashboard 
+
+
 
 TOUT LE MONDE
 Choix currency + langue du ticket

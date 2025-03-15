@@ -301,7 +301,7 @@ nav a:hover {
 }
 
 .container {
-  flex: 2;
+  flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -311,8 +311,9 @@ nav a:hover {
 .login-container {
   border-radius: 10px;
   background-color: #fff;
-  width: 400px;
-  max-width: 90vw;
+  width: 300px; 
+  max-width: 90%; 
+  min-width: 300px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
@@ -378,6 +379,14 @@ input:focus {
   border: 2px solid #ccc;
   margin: 0 auto;
   display: block;
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    width: 80%;
+    min-width: unset; 
+    padding: 1rem; 
+  }
 }
 
 /* UI CARDS  -------------------------------------------------------------------------------------------------*/
@@ -538,50 +547,65 @@ input:focus {
   flex-wrap: wrap;
   max-width: 300px;
   width: 100%;
-  margin-top: 2rem; 
-  margin-bottom: 2rem; 
+  margin-top: 2rem;
+  margin-bottom: 2rem;
   position: relative;
-  animation: none; 
-  margin: 2rem auto; 
+  animation: none;
+  margin: 2rem auto;
 }
 
 .notification-bubble {
   position: absolute;
-  bottom: 20px; 
-  left: 50%;
-  transform: translateX(-50%);
-  padding: 8px 20px;
+  left: 80%; 
+  padding: 8px 17px; 
   background-color: rgba(59, 64, 92);
   border-radius: 30px;
   color: white;
-  font-size: 1.2rem;
+  font-size: 1.5rem; 
   font-weight: bold;
-  opacity: 0; 
-  animation: pop-up 3s ease-out forwards, float-up 3s ease-in-out forwards;
-  pointer-events: none; 
+  opacity: 0;
+  animation: appear 0.5s ease-out forwards, shake 3s ease-in-out 0.5s infinite, disappear 0.5s ease-out 5s forwards;
+  pointer-events: none;
+  z-index: 3;
+  min-width: 100px; 
+  text-align: center; 
+  white-space: nowrap; 
 }
 
-@keyframes pop-up {
+@keyframes appear {
   0% {
-    transform: translateX(-50%) scale(0.5);
     opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(0) rotate(-7deg); 
   }
   50% {
-    opacity: 1;
-    transform: translateX(-50%) scale(1.1);
+    transform: translateY(0) rotate(7deg); 
   }
-  100% {
-    opacity: 0;
-    transform: translateX(-50%) scale(1);
+  75% {
+    transform: translateY(0) rotate(-7deg);
   }
 }
 
-@keyframes float-up {
+@keyframes disappear {
   0% {
-    bottom: 20px;
+    opacity: 1;
+    transform: translateY(0);
   }
   100% {
-    bottom: 70px; 
+    opacity: 0;
+    transform: translateY(-20px);
   }
 }
 
@@ -761,4 +785,26 @@ footer {
 .footer-copy {
   margin-top: 10px;
   font-size: 0.9rem;
+}
+
+/* LOADING ANIMATION-----------------------------------------------------------------------------*/
+
+.loader {
+  border: 5px solid #f3f3f3; 
+  border-top: 5px solid #303237; 
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  display: none;
+}
+
+@keyframes spin {
+  0% { transform: translate(-50%, -50%) rotate(0deg); }
+  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
