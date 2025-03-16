@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, login_user, LoginManager, login_required, logout_user, current_user
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField,  SubmitField
-from wtforms.validators import InputRequired, Length, ValidationError
+from wtforms.validators import InputRequired, Length, ValidationError, DataRequired
 from flask_bcrypt import Bcrypt
 import json
 from datetime import datetime
@@ -66,8 +66,8 @@ class Receipt(db.Model):
     user = db.relationship('User', backref=db.backref('receipts', lazy=True))
 
 class RegisterForm(FlaskForm):
-    username= StringField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder":"Username"})
-    password=PasswordField(validators=[InputRequired(), Length(min=4, max=20)], render_kw={"placeholder":"Password"})
+    username= StringField(validators=[InputRequired(), DataRequired(message="Le nom d'utilisateur est obligatoire."), Length(min=4, max=20, message="Le nom d'utilisateur doit contenir au moins 4 caractères.")], render_kw={"placeholder":"Username"})
+    password=PasswordField(validators=[InputRequired(), DataRequired(message="Le mot de passe est obligatoire."), Length(min=4, max=20)], render_kw={"placeholder":"Password"})
     submit=SubmitField("Register")
     def validate_username(self, username):
             existing_user_username=User.query.filter_by(username=username.data).first()

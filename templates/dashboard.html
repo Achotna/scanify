@@ -45,8 +45,8 @@
     <li class="hideOnMobile" style="font-family:Galada,serif; margin-left: 1.5rem;color: white;"> Scanify</li>
     <li class="hideOnMobile"><a href="{{ url_for('home') }}"> Accueil </a></li>
     <li class="hideOnMobile"><a href="{{ url_for('about') }}"> A propos</a></li>
+    <li class="hideOnMobile"><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
     {% if current_username %}
-      <li class="hideOnMobile"><a href="{{ url_for('dashboard') }}"> Tableau de bord</a></li>
       <li class="hideOnMobile"><a href="{{ url_for('logout') }}">Déconnexion</a></li>
     {% endif %}
     <li class="hamburger" onclick=showSidebar()><svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
