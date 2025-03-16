@@ -275,32 +275,3 @@ function hideSidebar(){
   const sidebar=document.querySelector('.sidebar')
   sidebar.style.display = 'none'
 }
-
-// ---------------------------------------------------------------------
-document.getElementById('analyzebtn').addEventListener('click', function () {
-  const button = this;
-  const form = document.getElementById('uploadForm');
-  const formData = new FormData(form);
-
-  document.getElementById('loader').style.display = 'block';
-
-  button.disabled = true;
-  document.getElementById('content').style.display = 'none';
-
-  fetch('/your-api-endpoint', {
-    method: 'POST',
-    body: formData,
-  })
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-    })
-    .catch(error => {
-      console.error('Error:', error);
-    })
-    .finally(() => {
-      document.getElementById('loader').style.display = 'none';
-      document.getElementById('content').style.display = 'block';
-      button.disabled = false;
-    });
-});

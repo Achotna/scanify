@@ -191,6 +191,7 @@ def dashboard():
                 print()
 
                 session['ticket_brut'] = ticket_brut
+                telecharger='pressed'
 
 
     new_receipt=None
