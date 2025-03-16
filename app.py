@@ -174,6 +174,8 @@ def dashboard():
     ticket_brut=None
 
     if request.method == 'POST':
+        if 'action' in request.form and request.form['action'] == 'upload':
+            telecharger=1
         if 'receipt_file' in request.files:
             file = request.files['receipt_file']
 
@@ -191,9 +193,9 @@ def dashboard():
                 print()
 
                 session['ticket_brut'] = ticket_brut
-                telecharger='pressed'
 
 
+    dernier_somme_ajoute=0
     new_receipt=None
     if 'ticket_brut' in session:
         ticket_brut = session['ticket_brut']
@@ -204,6 +206,7 @@ def dashboard():
     print()
     if request.method == 'POST':
         if 'action' in request.form and request.form['action'] == 'analyse' and ticket_brut!=None:
+            telecharger=None
             # Get user input from the form
             #ticket_brut = request.form['receipt_input']
             #TESTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT
@@ -268,7 +271,9 @@ def dashboard():
             # Loop through all receipts associated with the user and print them
                 for receipt in current_user.receipts:
                     sum=float(receipt.amount)+sum
-                    dernier_somme_ajoute=float(receipt.amount)
+                    if telecharger==None:
+                        dernier_somme_ajoute=float(receipt.amount)
+
                 #print("Somme : ", sum)
     else:
                 print(f"No user.")
