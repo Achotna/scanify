@@ -20,6 +20,7 @@ from dotenv import load_dotenv
 
 
 
+
 #Activation pour les graphs
 matplotlib.use('Agg')
 
@@ -92,7 +93,7 @@ def chat_with_gpt(categories, ticket_brut):
     try:
         response = openai.ChatCompletion.create(
         model="gpt-4",  #aussi "gpt-3.5-turbo"
-        messages=[{"role": "user", "content": f"(n'ecris pas d'autres reponse que json format partir de un ticket de caisse avec les infos importantes (inclue 'Nom du magasin'(premiere lettre en majuscule et apres tout en minuscule), 'Date' date sans l'heure sous format JJ/MM/AAAA UNIQUEMENT,   'Total' en float sans caractere speciaux choit bien le bon total (tu peux vérifier en additionnant tous les produits), 'Type de paiement' E pour especes ou CB pour carte bancaire ou CH pour chèque, 'Articles', dans 'Articles' fais un sous dictionnaire avec 'Nom_article' (resume le nom sur le ticket pour qu'il soit comprehensible par une personne), 'Catégorie' (utilise les categories uniquement ! {categories} et informe toi sur les produits vendus dans le magasin), 'Prix', ne fais fait 'quantité' mais ajoute l'article comme tel et fais tres attention aux remises s'il y en a) voici le ticket de caisse {ticket_brut}  et fais tres attention au nombre de chaque article et s'il y a des articles plusieurs fois dans le ticket, tu dois les mettre dans le disctionnaire séparément / attention s'il y a des réductions pense bien à les enlever du prix"}]
+        messages=[{"role": "user", "content": f"(n'ecris pas d'autres reponse que json format partir de un ticket de caisse avec les infos importantes (inclue 'Nom du magasin'(premiere lettre en majuscule et apres tout en minuscule), 'Date' date sans l'heure sous format JJ/MM/AAAA UNIQUEMENT,   'Total' en float sans caractere speciaux choit bien le bon total (tu peux vérifier en additionnant tous les produits), 'Type de paiement' E pour especes ou CB pour carte bancaire ou CH pour chèque, 'Articles', dans 'Articles' fais un sous dictionnaire avec 'Nom_article' (resume le nom sur le ticket pour qu'il soit comprehensible par une personne), 'Catégorie' (utilise les categories uniquement ! {categories} et informe toi sur les produits vendus dans le magasin), 'Prix', ne fais fait 'quantité' mais ajoute l'article comme tel et fais tres attention aux remises s'il y en a) voici le ticket de caisse {ticket_brut}  et fais tres attention au nombre de chaque article et s'il y a des articles plusieurs fois dans le ticket, tu dois les mettre dans le disctionnaire séparément / attention s'il y a des réductions pense bien à les enlever du prix / pour toutes informations manquantes mettre N/A"}]
             )
         chat_response = response['choices'][0]['message']['content']
         return chat_response
@@ -200,6 +201,7 @@ def dashboard():
 
     dernier_somme_ajoute=0
     new_receipt=None
+    telecharger=1
     if 'ticket_brut' in session:
         ticket_brut = session['ticket_brut']
     
@@ -322,15 +324,16 @@ def dashboard():
                         nom_magasins.append(receipt.shop_name)
                         
                     if receipt.date in dates.keys():
-
                         dates[receipt.date]=receipt.amount+dates[receipt.date]
                     else:
                         dates[receipt.date]=receipt.amount
 
                     if receipt.date[3:10] in months.keys():
-                        months[receipt.date[3:10]]=receipt.amount+months[receipt.date[3:10]]
+                        if receipt.date != "N/A":
+                            months[receipt.date[3:10]]=receipt.amount+months[receipt.date[3:10]]
                     else:
-                        months[receipt.date[3:10]]=receipt.amount
+                        if receipt.date != "N/A":
+                            months[receipt.date[3:10]]=receipt.amount
 
                     if receipt.payment_method == 'E':
                          especes=especes+1
@@ -376,6 +379,8 @@ def dashboard():
                 
 
                 #BAR CHART DAYS
+
+
                 fig, ax = plt.subplots(figsize=(8, 5), facecolor='none')
                 plt.bar([key for key, value in dates.items() if value > 0], [value for value in dates.values() if value > 0], color='#6a7998')
                 plt.xlabel('Jours', fontsize=12, color='white')
@@ -393,6 +398,7 @@ def dashboard():
                 plt.close()
 
                 #BAR CHART MONTHS
+              
                 fig, ax = plt.subplots(figsize=(8, 5), facecolor='none')
                 plt.bar([key for key, value in months.items() if value > 0], [value for value in months.values() if value > 0], color='#b7ccd1')
                 plt.xlabel('Mois', fontsize=12, color='white')
