@@ -1,3 +1,6 @@
+#Projet : Scanify
+#Auteurs : Antonina Savchenko, Elisa Salignon
+
 from PIL import Image
 from pytesseract import pytesseract
 import enum

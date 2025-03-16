@@ -1,3 +1,6 @@
+#Projet : Scanify
+#Auteurs : Antonina Savchenko, Elisa Salignon
+
 from flask import Flask, render_template, url_for, redirect, request, session
 import openai
 from flask_sqlalchemy import SQLAlchemy

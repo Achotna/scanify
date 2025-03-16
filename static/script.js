@@ -1,3 +1,6 @@
+//Projet : Scanify
+//Auteurs : Antonina Savchenko, Elisa Salignon
+
 // MAIN TITLE ANIMATION ---------------------------------------------------------------------------------
 
 document.addEventListener('DOMContentLoaded', () => {
