@@ -93,7 +93,7 @@ def chat_with_gpt(categories, ticket_brut):
     try:
         response = openai.ChatCompletion.create(
         model="gpt-4",  #aussi "gpt-3.5-turbo"
-        messages=[{"role": "user", "content": f"(n'ecris pas d'autres reponse que json format partir de un ticket de caisse avec les infos importantes (inclue 'Nom du magasin'(premiere lettre en majuscule et apres tout en minuscule), 'Date' date sans l'heure sous format JJ/MM/AAAA UNIQUEMENT,   'Total' en float sans caractere speciaux choit bien le bon total (tu peux vérifier en additionnant tous les produits), 'Type de paiement' E pour especes ou CB pour carte bancaire ou CH pour chèque, 'Articles', dans 'Articles' fais un sous dictionnaire avec 'Nom_article' (resume le nom sur le ticket pour qu'il soit comprehensible par une personne), 'Catégorie' (utilise les categories uniquement ! {categories} et informe toi sur les produits vendus dans le magasin), 'Prix', ne fais fait 'quantité' mais ajoute l'article comme tel et fais tres attention aux remises s'il y en a) voici le ticket de caisse {ticket_brut}  et fais tres attention au nombre de chaque article et s'il y a des articles plusieurs fois dans le ticket, tu dois les mettre dans le disctionnaire séparément / attention s'il y a des réductions pense bien à les enlever du prix / pour toutes informations manquantes mettre N/A"}]
+        messages=[{"role": "user", "content": f"(n'ecris pas d'autres reponse que json format partir de un ticket de caisse avec les infos importantes (inclue 'Nom du magasin'(premiere lettre en majuscule et apres tout en minuscule), 'Date' date sans l'heure sous format %d/%m/%Y UNIQUEMENTpas d'autre format!!! ou N/A si pas de date,   'Total' en float sans caractere speciaux choit bien le bon total (tu peux vérifier en additionnant tous les produits), 'Type de paiement' E pour especes ou CB pour carte bancaire ou CH pour chèque, 'Articles', dans 'Articles' fais un sous dictionnaire avec 'Nom_article' (resume le nom sur le ticket pour qu'il soit comprehensible par une personne), 'Catégorie' (classe l'artcle dans une des catégories suivante : {categories} et informe toi sur les produits vendus dans le magasin), 'Prix', ne fais fait 'quantité' mais ajoute l'article comme tel et fais tres attention aux remises s'il y en a) voici le ticket de caisse {ticket_brut}  et fais tres attention au nombre de chaque article et s'il y a des articles plusieurs fois dans le ticket, tu dois les mettre dans le disctionnaire séparément / attention s'il y a des réductions pense bien à les enlever du prix"}]
             )
         chat_response = response['choices'][0]['message']['content']
         return chat_response
@@ -295,7 +295,7 @@ def dashboard():
         if not current_user.receipts:
             print("No receipts found")
             print()
-            return render_template('dashboard.html', current_username=current_user.username.capitalize(), chat_with_gpt_html=None,  chart_url=None,  bar_d_url=None, bar_m_url=None, tab_url=None, chart_pay_url=None, sum=sum, nom_magasins=None)
+            return render_template('dashboard.html',upload_message=upload_message, current_username=current_user.username.capitalize(), chat_with_gpt_html=None,  chart_url=None,  bar_d_url=None, bar_m_url=None, tab_url=None, chart_pay_url=None, sum=sum, nom_magasins=None)
         else:
                 #traitement des donnees
                 categories_amount={"Alimentation":0, "Hygiène et beauté":0, "Entretien de la maison":0, "Animaux":0, "Électronique et multimédia":0, "Vêtements et accessoires":0, "Maison et décoration":0, "Loisirs et papeterie":0, "Santé":0, "Emballages":0, "Transports":0, "Réduction":0}
@@ -379,10 +379,23 @@ def dashboard():
                 
 
                 #BAR CHART DAYS
+                from datetime import datetime
+
+                # Filtrer les dates avec des valeurs supérieures à 0
+                filtered_dates = {k: v for k, v in dates.items() if v > 0}
+                print(filtered_dates)
+
+                # Trier les dates par ordre croissant en les convertissant en objets datetime
+                sorted_dates = dict(sorted(filtered_dates.items(), key=lambda item: datetime.strptime(item[0], "%d/%m/%Y")))
+
+                # Extraire les clés et valeurs triées
+                keys = list(sorted_dates.keys())
+                values = list(sorted_dates.values())
 
 
                 fig, ax = plt.subplots(figsize=(8, 5), facecolor='none')
-                plt.bar([key for key, value in dates.items() if value > 0], [value for value in dates.values() if value > 0], color='#6a7998')
+                plt.bar(keys, values, color='#6a7998')
+                #plt.bar([key for key, value in dates.items() if value > 0], [value for value in dates.values() if value > 0], color='#6a7998')
                 plt.xlabel('Jours', fontsize=12, color='white')
                 plt.ylabel('Montant dépensé (€)', fontsize=12, color='white')
                 plt.grid(axis='y', linestyle='--', alpha=0.5, color='gray')
@@ -398,9 +411,11 @@ def dashboard():
                 plt.close()
 
                 #BAR CHART MONTHS
-              
+
+                month_keys = [datetime.strptime(k, "%d/%m/%Y").strftime("%m/%Y") for k in keys]
+
                 fig, ax = plt.subplots(figsize=(8, 5), facecolor='none')
-                plt.bar([key for key, value in months.items() if value > 0], [value for value in months.values() if value > 0], color='#b7ccd1')
+                plt.bar(month_keys, values, color='#b7ccd1')
                 plt.xlabel('Mois', fontsize=12, color='white')
                 plt.ylabel('Montant dépensé (€)', fontsize=12, color='white')
                 plt.grid(axis='y', linestyle='--', alpha=0.5, color='gray')
