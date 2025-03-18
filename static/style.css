@@ -567,7 +567,7 @@ input:focus {
   font-size: 1.5rem; 
   font-weight: bold;
   opacity: 0;
-  animation: appear 0.5s ease-out forwards, shake 3s ease-in-out 0.5s infinite, disappear 0.5s ease-out 5s forwards;
+  animation: appear 2s ease-out forwards, disappear 2s ease-out 5s forwards;
   pointer-events: none;
   z-index: 3;
   min-width: 100px; 
@@ -583,21 +583,6 @@ input:focus {
   100% {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes shake {
-  0%, 100% {
-    transform: translateY(0) rotate(0deg);
-  }
-  25% {
-    transform: translateY(0) rotate(-7deg); 
-  }
-  50% {
-    transform: translateY(0) rotate(7deg); 
-  }
-  75% {
-    transform: translateY(0) rotate(-7deg);
   }
 }
 
@@ -668,6 +653,7 @@ input:focus {
       font-size: 1.2rem;
   }
 }
+
 
 /* SCROLL BOX --------------------------------------------------------------------------------------*/
 
@@ -788,26 +774,4 @@ footer {
 .footer-copy {
   margin-top: 10px;
   font-size: 0.9rem;
-}
-
-/* LOADING ANIMATION-----------------------------------------------------------------------------*/
-
-.loader {
-  border: 5px solid #f3f3f3; 
-  border-top: 5px solid #303237; 
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  animation: spin 1s linear infinite;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 1000;
-  display: none;
-}
-
-@keyframes spin {
-  0% { transform: translate(-50%, -50%) rotate(0deg); }
-  100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
