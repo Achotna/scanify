@@ -104,7 +104,7 @@ def chat_with_gpt(categories, ticket_brut):
 
 
 #Les pages
-@app.route("/home")
+@app.route("/")
 def home():
     return render_template('home.html')
 
