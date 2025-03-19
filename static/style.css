@@ -219,19 +219,32 @@ nav ul {
 
 nav li {
   margin-left: 20px;
-  color:rgb(224, 224, 224);
+  color:rgb(255, 255, 255);
   height: 100%;
   display: flex;
+}
+
+.scanify-title {
+  font-size: 1.2rem; 
+  font-family:  Galada, serif; 
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.95); 
 }
 
 nav a {
   text-decoration: none;
   color: rgba(255, 255, 255, 0.808);
-  font-size: 3vh;
+  font-size: 1rem;
 }
 
 nav a:hover {
   color: rgba(255, 255, 255, 0.95);
+}
+
+@media (min-width: 1200px) { 
+  nav a {
+    font-size: 1.3rem; 
+  }
 }
 
 .sidebar {
@@ -293,6 +306,16 @@ nav a:hover {
   color: #721C24;
   border-radius: 5px;
   text-align: center;
+}
+
+.centered-alert {
+  color: #eeeeee;
+  background-color: #5e6881;
+  width: 50%; 
+  margin: 20px auto; 
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center; 
 }
 
 /* Login and register page --------------------------------------------------------------------------------------------*/
