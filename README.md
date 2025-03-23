@@ -10,6 +10,7 @@ Avant de lancer le projet, assurez-vous d’avoir installé :
 - **Python 3.11 ou plus**
 - **Les bibliothèques listées dans `requirements.txt`**
 - **Tesseract OCR** (Téléchargeable depuis [ce lien](https://github.com/UB-Mannheim/tesseract/wiki))
+- **Une clé API ainsi que la crétion du fichier pour l'utiliser**
 - **Suivez les indications dans `installation.md`**
 
 ### Installation
