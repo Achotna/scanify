@@ -1,0 +1,6 @@
+GNU General Public License v3.0 or later (GPL v3+)
+
+Ce projet est sous licence GNU GPL v3+. Cela signifie que vous êtes libre de l'utiliser, de le modifier et de le redistribuer, tant que vous respectez les termes de cette licence.
+
+Vous pouvez consulter le texte complet de la licence à l'adresse suivante :
+https://www.gnu.org/licenses/gpl-3.0.html
