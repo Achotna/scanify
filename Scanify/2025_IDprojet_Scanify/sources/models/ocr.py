@@ -14,6 +14,7 @@ class Language(enum.Enum):
 class ImageReader:
 
     def __init__(self):
+        #Ajoutez votre chemin vers tesseract.exe ici
         window_path=r"tesseract_download\tesseract.exe"
         pytesseract.tesseract_cmd=window_path
 
