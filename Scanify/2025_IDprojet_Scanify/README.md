@@ -1,7 +1,7 @@
 # Scanify
 #Auteurs : Antonina Savchenko & Elisa Salignon
 
-Ce projet a été développé dans le cadre du concours Trophées NSI. Il permet d'analyser des tickets de caisse en générant des graphs et ainsi il facilite la gestion des dépenses
+Ce projet a été développé dans le cadre du concours des Trophées NSI. Il permet d'analyser des tickets de caisse en générant des graphiques et facilite ainsi la gestion des dépenses.
 
 ## Installation
 
@@ -10,7 +10,7 @@ Avant de lancer le projet, assurez-vous d’avoir installé :
 - **Python 3.11 ou plus**
 - **Les bibliothèques listées dans `requirements.txt`**
 - **Tesseract OCR** (Téléchargeable depuis [ce lien](https://github.com/UB-Mannheim/tesseract/wiki))
-- **Une clé API ainsi que la crétion du fichier pour l'utiliser**
+- **Une clé API ainsi que la création du fichier pour l'utiliser**
 - **Suivez les indications dans `installation.md`**
 
 ### Installation
@@ -31,7 +31,7 @@ python sources/main.py
 
 ```
 /2025_IDduProjet_NomduProjet
-   ├── READ.md             # Explication du projet et instructions
+   ├── READ.md              # Explication du projet et instructions
    ├── LICENCE.txt          # Licence du projet (GPL v3+)
    ├── requirements.txt     # Bibliothèques à installer
    ├── /sources             # Code source du projet
@@ -57,9 +57,9 @@ Tesseract OCR : Le chemin d'installation de Tesseract doit être correctement co
 
 Taille des images : Les performances de l'OCR peuvent être affectées si les images sont de trop mauvaise qualité ou trop volumineuses.
 
-Fichiers téléchargés : Les tickets doivent être au format d'image car notre programme ne peut que traiter des images (JPEG ou JPG)
+Fichiers téléchargés : Les tickets doivent être au format d'image car notre programme ne peut que traiter des images (JPEG ou JPG).
 
-Tickets de caisse : Les tickets doivent être de bonne qualité, comme ceux présents dans le dossier `test`. Ils doivent également ne être plutôt courts, ne pas contenir de réduction et avoir des noms d'articles claires car notre code n'est pas encore adapté pour des tickets plus complexes.
+Tickets de caisse : Les tickets doivent être de bonne qualité, comme ceux présents dans le dossier `test`. Ils doivent également être plutôt courts, ne pas contenir de réduction et avoir des noms d'articles clairs, car notre code n'est pas encore adapté pour des tickets plus complexes.
 
 
 ## License

@@ -27,19 +27,19 @@ Cela installera toutes les dépendances nécessaires pour exécuter le projet.
 window_path=r"votre_path\tesseract.exe"
 ```
 ### 4. Ajouter voter clé API
-1. Créer un fichier **.env**
-2. Placer dans ce fichier votre clé sous format (voir example.env)
+1. Créez un fichier **.env**
+2. Placez dans ce fichier votre clé sous format (voir example.env)
 
 ```python
 ANTHROPIC_API_KEY=METTEZ_VOTRE_CLE_API_SANS_GUILLEMETS
 ```
 
 ### 5. Modifier les chemins d'accès au fichier static dans main.py
-1. Aller dans le fichier main.py et changer les chemins en mettant le chemin d'accès du répertoire static dans les lignes suivantes : l-335, l-362, l-381, l-399, l-417
+1. Allez dans le fichier main.py et changez les chemins en mettant le chemin d'accès du répertoire static dans les lignes suivantes : l-335, l-362, l-381, l-399, l-417
 
 ```python
-#Ajouter votre chemin pour le répertoire static
-tab_path = os.path.join("mettez votre chemin d'accès pour le répertoire static ici")           
+#Ajoutez votre chemin pour le répertoire static
+tab_path = os.path.join("Mettez votre chemin d'accès pour le répertoire static ici")           
 ```
 
 ## Exécution du projet
