@@ -332,8 +332,8 @@ def dashboard():
                         cell.set_text_props(color='white')
 
                 #Ajouter votre chemin pour le répertoire static
-                tab_path = os.path.join('D:\Myapp\Scanify\\2025_IDprojet_Scanify\sources\static', 'tab_produits_par_categories.png')
-                print(tab_path)
+                base_dir = os.path.dirname(os.path.abspath(__file__))
+                tab_path = os.path.join(base_dir, 'static', 'tab_produits_par_categories.png')
                 plt.savefig(tab_path)
                 plt.close()
 
@@ -359,7 +359,7 @@ def dashboard():
                 ax.tick_params(axis='y', colors='white')
 
                 #Ajouter votre chemin pour le répertoire static
-                bar_d_path = os.path.join('D:\Myapp\Scanify\\2025_IDprojet_Scanify\sources\static', 'bar_days.png')
+                bar_d_path = os.path.join(base_dir, 'static', 'bar_days.png')
                 plt.savefig(bar_d_path)
                 plt.close()
 
@@ -378,7 +378,7 @@ def dashboard():
                 ax.tick_params(axis='y', colors='white')
 
                 #Ajouter votre chemin pour le répertoire static
-                bar_m_path = os.path.join('D:\Myapp\Scanify\\2025_IDprojet_Scanify\sources\static', 'bar_months.png')
+                bar_m_path = os.path.join(os.path.join(base_dir, 'static', 'bar_months.png'))
                 plt.savefig(bar_m_path)
                 plt.close()
 
@@ -396,7 +396,7 @@ def dashboard():
                 plt.gca().set_facecolor('none')
 
                 #Ajouter votre chemin pour le répertoire static
-                chart_path = os.path.join('D:\Myapp\Scanify\\2025_IDprojet_Scanify\sources\static', 'chart_categories.png')
+                chart_path = os.path.join(os.path.join(base_dir, 'static', 'chart_categories.png'))
                 plt.savefig(chart_path)
                 plt.close()
 
@@ -414,7 +414,7 @@ def dashboard():
 
 
                 #Ajouter votre chemin pour le répertoire static
-                chart_pay_path = os.path.join('D:\Myapp\Scanify\\2025_IDprojet_Scanify\sources\static', 'chart_pay.png')
+                chart_pay_path = os.path.join(os.path.join(base_dir, 'static', 'chart_pay.png'))
                 plt.savefig(chart_pay_path)
                 plt.close()
 

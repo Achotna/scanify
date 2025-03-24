@@ -3,6 +3,7 @@
 
 Ce projet a été développé dans le cadre du concours des Trophées NSI. Il permet d'analyser des tickets de caisse en générant des graphiques et facilite ainsi la gestion des dépenses.
 
+
 ## Installation
 
 ### Prérequis
@@ -13,35 +14,11 @@ Avant de lancer le projet, assurez-vous d’avoir installé :
 - **Une clé API ainsi que la création du fichier pour l'utiliser**
 - **Suivez les indications dans `installation.md`**
 
-### Installation
-
-Utilisez le gestionnaire de paquets [pip](https://pip.pypa.io/en/stable/) pour installer les dépendances :
-
-```bash
-pip install -r requirements.txt
-```
 
 ## Usage
 
 ```python
 python sources/main.py
-```
-
-## Structure du projet !!!!!!!!!!!!!!!!!!!!!!!!!!
-
-```
-/2025_IDduProjet_NomduProjet
-   ├── READ.md              # Explication du projet et instructions
-   ├── LICENCE.txt          # Licence du projet (GPL v3+)
-   ├── requirements.txt     # Bibliothèques à installer
-   ├── /sources             # Code source du projet
-   │   ├── main.py          # Programme principal
-   │   ├── module1.py       # Gestion de ...
-   │   ├── module2.py       # Gestion de ...
-   ├── /docs                # Documentation du projet
-   │   ├── architecture.md  # Explication de la structure des fichiers et du code
-   │   ├── installation.md  # Instructions d'installation et d'exécution
-   │   ├── utilisation.md   # Guide d'utilisation
 ```
 
 

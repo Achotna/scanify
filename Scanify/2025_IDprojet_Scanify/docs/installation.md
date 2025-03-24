@@ -34,14 +34,6 @@ window_path=r"votre_path\tesseract.exe"
 ANTHROPIC_API_KEY=METTEZ_VOTRE_CLE_API_SANS_GUILLEMETS
 ```
 
-### 5. Modifier les chemins d'accès au fichier static dans main.py
-1. Allez dans le fichier main.py et changez les chemins en mettant le chemin d'accès du répertoire static dans les lignes suivantes : l-335, l-362, l-381, l-399, l-417
-
-```python
-#Ajoutez votre chemin pour le répertoire static
-tab_path = os.path.join("Mettez votre chemin d'accès pour le répertoire static ici")           
-```
-
 ## Exécution du projet
 
 Une fois l'installation terminée, lancez le projet en exécutant :
