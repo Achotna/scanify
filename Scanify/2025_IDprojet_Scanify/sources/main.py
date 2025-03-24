@@ -262,7 +262,7 @@ def dashboard():
             print()
             return render_template('dashboard.html',upload_message=upload_message, current_username=current_user.username.capitalize(), chat_with_gpt_html=None,  chart_url=None,  bar_d_url=None, bar_m_url=None, tab_url=None, chart_pay_url=None, sum=sum, nom_magasins=None)
         else:
-                Ttraitement des données
+                #Traitement des données
                 categories_amount={"Alimentation":0, "Hygiène et beauté":0, "Animaux":0, "Électronique et multimédia":0, "Vêtements et accessoires":0, "Maison et décoration":0, "Loisirs et papeterie":0, "Santé":0, "Emballages":0, "Transports":0, "Réduction":0}
                 nom_magasins=[]
                 dates={}
@@ -331,13 +331,12 @@ def dashboard():
                         cell.set_facecolor('#262931')
                         cell.set_text_props(color='white')
 
-                #Ajouter votre chemin relatif pour le répertoire graphs
-                tab_path = os.path.join('Scanify//2025_IDprojet_Scanify//sources//data//graphs', 'tab_produits_par_categories.png')
+                #Ajouter votre chemin pour le répertoire static
+                tab_path = os.path.join('D:\Myapp\Scanify\\2025_IDprojet_Scanify\sources\static', 'tab_produits_par_categories.png')
+                print(tab_path)
                 plt.savefig(tab_path)
                 plt.close()
 
-
-                
 
                 #BAR CHART DAYS
                 from datetime import datetime
@@ -359,7 +358,8 @@ def dashboard():
                 ax.tick_params(axis='x', colors='white')
                 ax.tick_params(axis='y', colors='white')
 
-                bar_d_path = os.path.join('Scanify//2025_IDprojet_Scanify//sources//data//graphs', 'bar_days.png')
+                #Ajouter votre chemin pour le répertoire static
+                bar_d_path = os.path.join('D:\Myapp\Scanify\\2025_IDprojet_Scanify\sources\static', 'bar_days.png')
                 plt.savefig(bar_d_path)
                 plt.close()
 
@@ -377,7 +377,8 @@ def dashboard():
                 ax.tick_params(axis='x', colors='white')
                 ax.tick_params(axis='y', colors='white')
 
-                bar_m_path = os.path.join('Scanify//2025_IDprojet_Scanify//sources//data//graphs', 'bar_months.png')
+                #Ajouter votre chemin pour le répertoire static
+                bar_m_path = os.path.join('D:\Myapp\Scanify\\2025_IDprojet_Scanify\sources\static', 'bar_months.png')
                 plt.savefig(bar_m_path)
                 plt.close()
 
@@ -394,7 +395,8 @@ def dashboard():
                     autotext.set(fontsize=13, fontweight="bold", color='#1d1e1d')
                 plt.gca().set_facecolor('none')
 
-                chart_path = os.path.join('Scanify//2025_IDprojet_Scanify//sources//data//graphs', 'chart_categories.png')
+                #Ajouter votre chemin pour le répertoire static
+                chart_path = os.path.join('D:\Myapp\Scanify\\2025_IDprojet_Scanify\sources\static', 'chart_categories.png')
                 plt.savefig(chart_path)
                 plt.close()
 
@@ -410,7 +412,9 @@ def dashboard():
                     autotext.set(fontsize=13, fontweight="bold", color='#1d1e1d')
                 plt.gca().set_facecolor('none')
 
-                chart_pay_path = os.path.join('Scanify//2025_IDprojet_Scanify//sources//data//graphs', 'chart_pay.png')
+
+                #Ajouter votre chemin pour le répertoire static
+                chart_pay_path = os.path.join('D:\Myapp\Scanify\\2025_IDprojet_Scanify\sources\static', 'chart_pay.png')
                 plt.savefig(chart_pay_path)
                 plt.close()
 

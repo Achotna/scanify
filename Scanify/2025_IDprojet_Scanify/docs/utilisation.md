@@ -26,5 +26,8 @@ Grâce à son interface simple et à l'intelligence artificielle intégrée, Sca
 
 Tickets de caisse : Les tickets doivent être de bonne qualité, comme ceux présents dans le dossier `test`. Ils doivent également ne être plutôt courts, ne pas contenir de réduction et avoir des noms d'articles claires car notre code n'est pas encore adapté pour des tickets plus complexes. Il faut aussi noter que notre programme ne fonctionne qu'avec les tickets au format JPEG ou JPG pour l'instant.
 
+### Effacer la base
+Pour effacer la base de données rajouter /clear_database derrière le protocole HTTP, par exemple : http://127.0.0.1:5000/clear_database
+
 ---
 Référence : Scanify, 2025.
