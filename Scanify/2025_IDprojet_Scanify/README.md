@@ -12,14 +12,8 @@ Avant de lancer le projet, assurez-vous d’avoir installé :
 - **Les bibliothèques listées dans `requirements.txt`**
 - **Tesseract OCR** (Téléchargeable depuis [ce lien](https://github.com/UB-Mannheim/tesseract/wiki))
 - **Une clé API ainsi que la création du fichier pour l'utiliser**
-- **Suivez les indications dans `installation.md`**
+- **Suivez les indications dans `docs\installation.md`**
 
-
-## Usage
-
-```python
-python sources/main.py
-```
 
 
 ##Contraintes et Limitations

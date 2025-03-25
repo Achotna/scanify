@@ -15,7 +15,7 @@ class ImageReader:
 
     def __init__(self):
         #Ajoutez votre chemin vers tesseract.exe ici
-        window_path=r"D:\Myapp\tesseract_download\tesseract.exe"
+        window_path=r"D:\tesseract_download\tesseract.exe"
         pytesseract.tesseract_cmd=window_path
 
     def extract_text(self, image: str, lang: str) -> str:
